@@ -8,6 +8,7 @@
 // необхідно реєструватись. І відображення всіх юзерів це відповідно просто виведення списку вісх юзерів. При реєстрації
 // мейли не можуть повторюватись.
 
+//______________________________________________________________________________________________________________________
 const express = require('express');
 const app = express();
 const expressHandlebars = require('express-handlebars');
@@ -15,9 +16,17 @@ const path = require('path');
 
 app.use(express.urlencoded({extended: true}));
 app.use(express.json());
+app.use(express.static(path.join(process.cwd(), 'views')));
+
+app.set('view engine', '.hbs');
+app.engine('.hbs', expressHandlebars({
+    defaultLayout: false
+}));
+app.set('views', path.join(process.cwd(), 'views'));
+//______________________________________________________________________________________________________________________
 
 app.get('/', (req, res) => {
-    res.end('Hesssllo node');
+    res.end('Hello node');
 });
 
 
