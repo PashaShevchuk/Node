@@ -25,11 +25,32 @@ app.engine('.hbs', expressHandlebars({
 app.set('views', path.join(process.cwd(), 'views'));
 //______________________________________________________________________________________________________________________
 
+let usersArr = [
+    {login: 'bob', password: '2020bob'},
+    {login: 'mary', password: '8mary8'},
+    {login: 'ava', password: '123456789'},
+];
+
 app.get('/', (req, res) => {
-    res.end('Hello node');
+    res.render('main');
+});
+
+app.post('/login', (req, res) => {
+    res.render('login');
+});
+
+app.post('/register', (req, res) => {
+    res.render('register');
+});
+
+app.post('/users', (req, res) => {
+    console.log(req.body);
+    if (req.body.login) usersArr.push(req.body);
+    res.render('users', {usersArr});
 });
 
 
+//______________________________________________________________________________________________________________________
 app.listen(5000, (err) => {
     if (err) console.log(err);
 
