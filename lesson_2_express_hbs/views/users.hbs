@@ -9,13 +9,18 @@
 </head>
 <body>
 
-<h3>Users who are registered on the site:</h3>
-<ul>
-    {{#each usersArr}}
-        <li>{{this.login}}</li>
-    {{/each}}
-</ul>
-<a href="/">Go home</a>
+    {{#if user}}
+        <div>Hello {{user.login}}</div>
+    {{/if}}
+
+    <h2>Users who are registered on the site:</h2>
+    <ul>
+        {{#each usersArr}}
+            <li>{{this.login}}</li>
+        {{/each}}
+    </ul>
+
+    <a href="/">Go home</a>
 
 </body>
 </html>

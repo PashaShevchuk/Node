@@ -8,7 +8,7 @@
 // необхідно реєструватись. І відображення всіх юзерів це відповідно просто виведення списку вісх юзерів. При реєстрації
 // мейли не можуть повторюватись.
 
-//______________________________________________________________________________________________________________________
+//======================================================================================================================
 const express = require('express');
 const app = express();
 const expressHandlebars = require('express-handlebars');
@@ -23,34 +23,50 @@ app.engine('.hbs', expressHandlebars({
     defaultLayout: false
 }));
 app.set('views', path.join(process.cwd(), 'views'));
-//______________________________________________________________________________________________________________________
+//======================================================================================================================
 
 let usersArr = [
     {login: 'bob', password: '2020bob'},
     {login: 'mary', password: '8mary8'},
-    {login: 'ava', password: '123456789'},
+    {login: 'ava', password: '1111'},
 ];
+//======================================================================================================================
 
 app.get('/', (req, res) => {
     res.render('main');
 });
 
-app.post('/login', (req, res) => {
-    res.render('login');
-});
-
-app.post('/register', (req, res) => {
+app.get('/register', (req, res) => {
     res.render('register');
 });
 
-app.post('/users', (req, res) => {
-    console.log(req.body);
-    if (req.body.login) usersArr.push(req.body);
-    res.render('users', {usersArr});
+app.get('/login', (req, res) => {
+    res.render('login');
 });
 
+app.get('/users', (req, res) => {
+    res.render('users', {usersArr});
+});
+//======================================================================================================================
 
-//______________________________________________________________________________________________________________________
+app.post('/register', (req, res) => {
+    if (usersArr.some(user => user.login.toLocaleLowerCase() === req.body.login.toLocaleLowerCase())) {
+        res.render('register', {isLoginUsed: true});
+    } else {
+        usersArr.push(req.body);
+        res.render('users', {user: req.body, usersArr});
+    }
+});
+
+app.post('/login', (req, res) => {
+    if (usersArr.some(user => user.login.toLocaleLowerCase() === req.body.login.toLocaleLowerCase() && user.password === req.body.password)) {
+        res.render('login', {isRegistered: true, user: req.body});
+    } else {
+        res.render('login', {notRegister: true, user: req.body});
+    }
+});
+//======================================================================================================================
+
 app.listen(5000, (err) => {
     if (err) console.log(err);
 
