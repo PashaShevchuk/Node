@@ -8,6 +8,10 @@
     <title>Users</title>
 </head>
 <body>
+    {{#if isLoginUsed}}
+        <h3>This login is already use, please choose another login</h3>
+        <a href="/register">Go to registration</a>
+    {{/if}}
 
     {{#if user}}
         <div>Hello {{user.login}}</div>

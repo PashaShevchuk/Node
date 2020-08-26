@@ -64,7 +64,7 @@ function movingFiles(directory) {
                 if (err) console.log(err);
 
                 if (stat.isFile()) {
-                    if (!(x === 'app.js')) {
+                    if (x !== 'app.js') {
                         fs.rename(path.join(directory, x), path.join(process.cwd(), 'allFiles', x), (err) => {
                             if (err) console.log(err);
                         });

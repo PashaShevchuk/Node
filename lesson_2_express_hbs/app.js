@@ -49,9 +49,9 @@ app.get('/users', (req, res) => {
 });
 //======================================================================================================================
 
-app.post('/register', (req, res) => {
+app.post('/users', (req, res) => {
     if (usersArr.some(user => user.login.toLowerCase() === req.body.login.toLowerCase())) {
-        res.render('register', {isLoginUsed: true});
+        res.render('users', {isLoginUsed: true, usersArr});
     } else {
         usersArr.push(req.body);
         res.render('users', {user: req.body, usersArr});
