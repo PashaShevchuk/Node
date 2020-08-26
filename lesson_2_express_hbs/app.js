@@ -50,7 +50,7 @@ app.get('/users', (req, res) => {
 //======================================================================================================================
 
 app.post('/register', (req, res) => {
-    if (usersArr.some(user => user.login.toLocaleLowerCase() === req.body.login.toLocaleLowerCase())) {
+    if (usersArr.some(user => user.login.toLowerCase() === req.body.login.toLowerCase())) {
         res.render('register', {isLoginUsed: true});
     } else {
         usersArr.push(req.body);
@@ -59,7 +59,7 @@ app.post('/register', (req, res) => {
 });
 
 app.post('/login', (req, res) => {
-    if (usersArr.some(user => user.login.toLocaleLowerCase() === req.body.login.toLocaleLowerCase() && user.password === req.body.password)) {
+    if (usersArr.some(user => user.login.toLowerCase() === req.body.login.toLowerCase() && user.password === req.body.password)) {
         res.render('login', {isRegistered: true, user: req.body});
     } else {
         res.render('login', {notRegister: true, user: req.body});
