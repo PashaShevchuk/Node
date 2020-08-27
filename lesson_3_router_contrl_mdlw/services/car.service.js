@@ -1,6 +1,5 @@
 //______________________________________________________________________________________________________________________
 let cars = [
-
     {id: 1, producer: "subaru", model: "wrx", year: 2010},
     {id: 2, producer: "porsche", model: "911", year: 2020},
     {id: 3, producer: "bmw", model: "315", year: 2014},
@@ -12,7 +11,10 @@ let cars = [
 
 module.exports = {
     getAll: () => cars,
-    getById: 'car by id',
+    getById: (id) => {
+        const car = cars.find(car => car.id === +id);
+        return (car) ? car : {err: `Car with id ${id} not found`};
+    },
     create: 'create',
     update: 'update',
     delete: 'delete',
