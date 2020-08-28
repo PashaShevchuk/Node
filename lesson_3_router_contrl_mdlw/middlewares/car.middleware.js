@@ -2,11 +2,11 @@ module.exports = {
     checkCarValidity: (req, res, next) => {
         try {
             const car = req.body;
-            if (!car.producer && !car.model && !car.year) {
+            if (!car.producer || !car.model || !car.year) {
                 throw new Error('Please enter all required details');
             }
-            if (+car.year < 1885) { //Because the first car was built in 1885
-                throw new Error('Please enter the correct year (must be greater than 1885)')
+            if (+car.year < 1885 || +car.year > new Date().getFullYear()) { //Because the first car was built in 1885
+                throw new Error('Please enter the correct year')
             }
             next();
         } catch (e) {
