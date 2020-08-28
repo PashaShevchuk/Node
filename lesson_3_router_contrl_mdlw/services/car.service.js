@@ -21,12 +21,7 @@ module.exports = {
         const carsId = cars.map(car => car.id);
         let i = 1;
         while (carsId.includes(i)) i++; // to find the next smallest id
-        const createdCar = {
-            id: i,
-            producer: data.producer,
-            model: data.model,
-            year: data.year,
-        };
+        const createdCar = {id: i, producer: data.producer, model: data.model, year: data.year};
         cars.push(createdCar);
         return createdCar;
     },
@@ -34,20 +29,19 @@ module.exports = {
     update: (id, data) => {
         const car = cars.find(car => car.id === id);
         if (car) {
-            const updatedCar = {
-                id: id,
-                producer: data.producer,
-                model: data.model,
-                year: data.year
-            };
+            const index = cars.findIndex(car => car.id === id);
+            const updatedCar = {id: id, producer: data.producer, model: data.model, year: data.year};
+            cars.splice(index, 1, updatedCar);
             return cars;
+        } else {
+            return {err: `Unable to update car with id ${id}, because it was not found`};
         }
     },
 
     delete: (id) => {
-        const car = cars.find(car => car.id === +id);
+        const car = cars.find(car => car.id === id);
         if (car) {
-            const index = cars.findIndex(car => car.id === +id);
+            const index = cars.findIndex(car => car.id === id);
             cars.splice(index, 1);
             return cars;
         } else {
@@ -55,5 +49,3 @@ module.exports = {
         }
     },
 };
-
-
