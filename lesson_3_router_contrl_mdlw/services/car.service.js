@@ -13,38 +13,35 @@ module.exports = {
 
     getById: (id) => {
         const car = cars.find(car => car.id === id);
-        return (car) ? car : {err: `Car with id ${id} not found`};
+        if (!car) {
+            return {err: 'Car not found'};
+        }
+        return car;
     },
 
     create: (data) => {
-        const carsId = cars.map(car => car.id);
-        let i = 1;
-        while (carsId.includes(i)) i++; // to find the next smallest id
-        const createdCar = {id: i, producer: data.producer, model: data.model, year: data.year};
+        const newId = cars[cars.length - 1].id + 1;
+        const createdCar = {id: newId, producer: data.producer, model: data.model, year: data.year};
         cars.push(createdCar);
         return createdCar;
     },
 
     update: (id, data) => {
-        const car = cars.find(car => car.id === id);
-        if (car) {
-            const index = cars.findIndex(car => car.id === id);
-            const updatedCar = {id: id, producer: data.producer, model: data.model, year: data.year};
-            cars.splice(index, 1, updatedCar);
-            return cars;
-        } else {
-            return {err: `Unable to update car with id ${id}, because it was not found`};
+        const index = cars.findIndex(car => car.id === id);
+        if (index === -1) {
+            return {err: 'Unable to update car, because it was not found'};
         }
+        const updatedCar = {id: id, producer: data.producer, model: data.model, year: data.year};
+        cars.splice(index, 1, updatedCar);
+        return cars;
     },
 
     delete: (id) => {
-        const car = cars.find(car => car.id === id);
-        if (car) {
-            const index = cars.findIndex(car => car.id === id);
-            cars.splice(index, 1);
-            return cars;
-        } else {
-            return {err: `Unable to delete car with id ${id}, because it was not found`};
+        const index = cars.findIndex(car => car.id === id);
+        if (index === -1) {
+            return {err: 'Unable to delete car, because it was not found'};
         }
+        cars.splice(index, 1);
+        return cars;
     },
 };
