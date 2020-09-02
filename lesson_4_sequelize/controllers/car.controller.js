@@ -39,8 +39,8 @@ module.exports = {
 
   delete: async (req, res) => {
     try {
-      const carsWithoutDeletedCar = await carService.deleteCar(+req.params.id);
-      res.json(carsWithoutDeletedCar);
+      const messageAboutDeletingCar  = await carService.deleteCar(+req.params.id);
+      res.status(200).send(messageAboutDeletingCar);
     } catch (e) {
       res.json(e.message);
     }

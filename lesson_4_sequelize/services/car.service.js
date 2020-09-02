@@ -27,7 +27,7 @@ module.exports = {
       return {err: 'Car not found'};
     }
 
-    return CarModel.update(carObject, {where: {id: id}}).then(() => CarModel.findOne({where: {id: id}}));
+    return CarModel.update(carObject, {where: {id: id}}).then(() => car);
   },
 
   deleteCar: async (id) => {
@@ -36,6 +36,6 @@ module.exports = {
       return {err: 'Car not found'};
     }
 
-    return CarModel.destroy({where: {id: id}}).then(() => CarModel.findAll());
+    return CarModel.destroy({where: {id: id}}).then(() => 'The car has been deleted');
   },
 };
