@@ -10,32 +10,39 @@ module.exports = {
     }
   },
 
-  // create: async (req, res) => {
-  //   try {
-  //     const car = await carService.createCar(req.body);
-  //     res.status(201).json(car);
-  //   } catch (e) {
-  //     res.json(e.message)
-  //   }
-  // },
+  findCar: async (req, res) => {
+    try {
+      const car = await carService.findById(+req.params.id);
+      res.json(car);
+    } catch (e) {
+      res.json(e.message);
+    }
+  },
 
-  // getCarById: (req, res) => {
-  //     const car = carService.getById(+req.params.id);
-  //     res.json(car);
-  // },
-  //
-  // createCar: (req, res) => {
-  //     const createdCar = carService.create(req.body);
-  //     res.json(createdCar);
-  // },
-  //
-  // updateCar: (req, res) => {
-  //     const updatedCar = carService.update(+req.params.id, req.body);
-  //     res.json(updatedCar);
-  // },
-  //
-  // deleteCar: (req, res) => {
-  //     const cars = carService.delete(+req.params.id);
-  //     res.json(cars);
-  // },
+  create: async (req, res) => {
+    try {
+      const createdCar = await carService.createCar(req.body);
+      res.status(201).json(createdCar);
+    } catch (e) {
+      res.json(e.message);
+    }
+  },
+
+  update: async (req, res) => {
+    try {
+      const updatedCar = await carService.updateCar(+req.params.id, req.body);
+      res.json(updatedCar);
+    } catch (e) {
+      res.json(e.message);
+    }
+  },
+
+  delete: async (req, res) => {
+    try {
+      const carsWithoutDeletedCar = await carService.deleteCar(+req.params.id);
+      res.json(carsWithoutDeletedCar);
+    } catch (e) {
+      res.json(e.message);
+    }
+  },
 };

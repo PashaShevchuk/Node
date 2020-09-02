@@ -10,7 +10,7 @@ app.use(express.json());
 app.use('/api', apiRouter);
 
 sequelize
-  .sync()
+  .sync({alter: true})
   .then(() => {
     app.listen(5000, (err) => {
       if (err) console.log(err);
