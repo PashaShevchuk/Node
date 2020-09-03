@@ -19,4 +19,5 @@ sequelize
   })
   .catch(reason => {
     console.log(reason);
+    console.log('hi');
   });
