@@ -1,41 +1,13 @@
 const {CarModel} = require('../models');
 
 module.exports = {
-  findAll: async () => {
-    const cars = await CarModel.findAll({});
-    if (!cars) {
-      return {err: 'Cars not found'};
-    }
-    return cars;
-  },
+  findAllCar: async () => CarModel.findAll(),
 
-  findById: async (id) => {
-    const car = await CarModel.findOne({where: {id: id}});
-    if (!car) {
-      return {err: 'Car not found'};
-    }
-    return car;
-  },
+  findById: async (id) => CarModel.findOne({where: {id: id}}),
 
-  createCar: async (carObject) => {
-    return CarModel.create(carObject);
-  },
+  createCar: async (carObject) => CarModel.create(carObject),
 
-  updateCar: async (id, carObject) => {
-    const car = await CarModel.findOne({where: {id: id}});
-    if (!car) {
-      return {err: 'Car not found'};
-    }
+  updateCarById: async (id, carObject) => CarModel.update(carObject, {where: {id: id}}).then(() => 'The car has been updated'),
 
-    return CarModel.update(carObject, {where: {id: id}}).then(() => car);
-  },
-
-  deleteCar: async (id) => {
-    const car = await CarModel.findOne({where: {id: id}});
-    if (!car) {
-      return {err: 'Car not found'};
-    }
-
-    return CarModel.destroy({where: {id: id}}).then(() => 'The car has been deleted');
-  },
+  deleteCarById: async (id) => CarModel.destroy({where: {id: id}}).then(() => 'The car has been deleted')
 };
