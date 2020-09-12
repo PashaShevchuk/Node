@@ -1,6 +1,5 @@
 const {
-  carService:
-    {findAllCar, findById, createCar, updateCarById, deleteCarById}
+  carService: {findAllCar, findById, createCar, updateCarById, deleteCarById}
 } = require('../services');
 
 
@@ -11,7 +10,7 @@ module.exports = {
       res.json(cars);
 
     } catch (e) {
-      res.json(e.message);
+      res.status(400).end(e.message);
     }
   },
 
@@ -21,7 +20,7 @@ module.exports = {
       res.json(car);
 
     } catch (e) {
-      res.json(e.message);
+      res.status(400).end(e.message);
     }
   },
 
@@ -31,7 +30,7 @@ module.exports = {
       res.status(201).json(createdCar);
 
     } catch (e) {
-      res.json(e.message);
+      res.status(400).end(e.message);
     }
   },
 
@@ -41,7 +40,7 @@ module.exports = {
       res.json(messageAboutUpdatingCar);
 
     } catch (e) {
-      res.json(e.message);
+      res.status(400).end(e.message);
     }
   },
 
@@ -51,7 +50,7 @@ module.exports = {
       res.status(200).send(messageAboutDeletingCar);
 
     } catch (e) {
-      res.json(e.message);
+      res.status(400).end(e.message);
     }
   },
 };

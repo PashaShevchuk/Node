@@ -20,7 +20,7 @@ module.exports = {
   isCarInDB: async (req, res, next) => {
     try {
       const id = +req.params.id;
-      const car = await CarModel.findOne({where: {id: id}});
+      const car = await CarModel.findOne({where: {id}});
       if (!car) {
         return res.status(400).end('Car not found');
       }
