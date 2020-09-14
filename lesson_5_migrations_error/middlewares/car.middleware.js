@@ -1,4 +1,4 @@
-const CarModel = require('../models/car.model');
+const CarModel = require('../dataBase/models/car.model');
 
 module.exports = {
   checkCarValidity: (req, res, next) => {
