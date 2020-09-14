@@ -1,4 +1,4 @@
-const {CarModel} = require('../models');
+const CarModel = require('../models/car.model');
 
 module.exports = {
   findAllCar: async () => CarModel.findAll(),
