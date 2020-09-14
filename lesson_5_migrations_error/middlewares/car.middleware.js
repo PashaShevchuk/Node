@@ -1,19 +1,57 @@
 const CarModel = require('../dataBase/models/car.model');
+const {
+  CustomError,
+  statusCodesEnum,
+  carsErrors: {
+    BAD_REQUEST_NOT_VALID_CAR,
+    BAD_REQUEST_NOT_VALID_CAR_YEAR,
+    BAD_REQUEST_NOT_VALID_CAR_MODEL_NAME,
+    BAD_REQUEST_NOT_VALID_CAR_PRICE,
+    NOT_FOUND_CAR
+  }
+} = require('../errors');
 
 module.exports = {
   checkCarValidity: (req, res, next) => {
     try {
       const car = req.body;
 
-      if (!car.model || !car.price || !car.year) throw new Error('Please enter all required details');
-      if (+car.year < 1885 || +car.year > new Date().getFullYear()) throw new Error('Please enter the correct year');
-      if (car.model.length > 50) throw new Error('Model name must be less than 50 characters');
-      if (car.price < 0) throw new Error('The price must be greater than 0');
+      if (!car.model || !car.price || !car.year) {
+        return next(new CustomError(
+          BAD_REQUEST_NOT_VALID_CAR.message,
+          statusCodesEnum.BAD_REQUEST,
+          BAD_REQUEST_NOT_VALID_CAR.code)
+        );
+      }
+
+      if (+car.year < 1885 || +car.year > new Date().getFullYear()) {
+        return next(new CustomError(
+          BAD_REQUEST_NOT_VALID_CAR_YEAR.message,
+          statusCodesEnum.BAD_REQUEST,
+          BAD_REQUEST_NOT_VALID_CAR_YEAR.code)
+        );
+      }
+
+      if (car.model.length > 50) {
+        return next(new CustomError(
+          BAD_REQUEST_NOT_VALID_CAR_MODEL_NAME.message,
+          statusCodesEnum.BAD_REQUEST,
+          BAD_REQUEST_NOT_VALID_CAR_MODEL_NAME.code)
+        );
+      }
+
+      if (car.price <= 0) {
+        return next(new CustomError(
+          BAD_REQUEST_NOT_VALID_CAR_PRICE.message,
+          statusCodesEnum.BAD_REQUEST,
+          BAD_REQUEST_NOT_VALID_CAR_PRICE.code)
+        );
+      }
 
       next();
 
     } catch (e) {
-      return res.status(400).end(e.message);
+      next(e);
     }
   },
 
@@ -21,14 +59,19 @@ module.exports = {
     try {
       const id = +req.params.id;
       const car = await CarModel.findOne({where: {id}});
+
       if (!car) {
-        return res.status(400).end('Car not found');
+        return next(new CustomError(
+          NOT_FOUND_CAR.message,
+          statusCodesEnum.NOT_FOUND,
+          NOT_FOUND_CAR.code)
+        );
       }
 
       next();
 
     } catch (e) {
-      return res.status(400).end(e.message);
+      next(e);
     }
   },
 };
