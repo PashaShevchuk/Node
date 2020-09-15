@@ -1,6 +1,7 @@
 const {
   userService: {findAllUsers, findById, createUser, updateUserById, deleteUserById}
 } = require('../services');
+const {hashPassword} = require('../helpers');
 
 module.exports = {
   fetchAll: async (req, res) => {
@@ -25,7 +26,10 @@ module.exports = {
 
   createOneUser: async (req, res) => {
     try {
-      const createdUser = await createUser(req.body);
+      const user = req.body;
+      user.password = await hashPassword(user.password);
+      const createdUser = await createUser(user);
+
       res.status(201).json(createdUser);
 
     } catch (e) {

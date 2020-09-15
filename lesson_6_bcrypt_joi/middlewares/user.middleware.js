@@ -1,4 +1,6 @@
-const UserModel = require('../dataBase/models/user.model')
+const UserModel = require('../dataBase/models/user.model');
+const {userService} = require('../services');
+const bcrypt = require('bcrypt');
 const {
   constants: {emailRegexp}
 } = require('../constants');
@@ -53,6 +55,45 @@ module.exports = {
           NOT_FOUND_USER.code)
         );
       }
+
+      next();
+
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  checkIsUserPresent: async (req, res, next) => {
+    try {
+      const {login} = req.body;
+      const user = await userService.findOneByParams({login});
+
+      if (!user) {
+        return next(new CustomError(
+          NOT_FOUND_USER.message,
+          statusCodesEnum.NOT_FOUND,
+          NOT_FOUND_USER.code)
+        );
+      }
+
+      req.user = user;
+      next();
+
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  checkHashUserPassword: async (req, res, next) => {
+    try {
+      const user = req.user;
+      const {password} = req.body;
+      const isPasswordsEquals = await bcrypt.compare(password, user.password);
+
+      if (!isPasswordsEquals) {
+        return next(new CustomError(NOT_FOUND_USER.message, statusCodesEnum.NOT_FOUND, NOT_FOUND_USER.code));
+      }
+      req.authMessage = 'Authorization successful'
 
       next();
 
