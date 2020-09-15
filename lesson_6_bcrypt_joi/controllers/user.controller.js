@@ -39,8 +39,20 @@ module.exports = {
 
   updateOneUser: async (req, res) => {
     try {
-      const messageAboutUpdatingUser = await updateUserById(+req.params.id, req.body);
-      res.json(messageAboutUpdatingUser);
+      const user = req.body;
+
+      if (!user.password) {
+        const userToUpdate = {...user, ...req.body};
+        const messageAboutUpdatingUser = await updateUserById(+req.params.id, userToUpdate);
+
+        res.json(messageAboutUpdatingUser);
+      } else {
+        user.password = await hashPassword(user.password);
+        const userToUpdate = {...user, ...req.body};
+        const messageAboutUpdatingUser = await updateUserById(+req.params.id, userToUpdate);
+
+        res.json(messageAboutUpdatingUser);
+      }
 
     } catch (e) {
       res.status(400).end(e.message);
