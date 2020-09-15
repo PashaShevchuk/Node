@@ -28,9 +28,9 @@ module.exports = {
     try {
       const user = req.body;
       user.password = await hashPassword(user.password);
-      const createdUser = await createUser(user);
+      const messageAboutCreatingUser = await createUser(user);
 
-      res.status(201).json(createdUser);
+      res.status(201).send(messageAboutCreatingUser);
 
     } catch (e) {
       res.status(400).end(e.message);
@@ -45,13 +45,13 @@ module.exports = {
         const userToUpdate = {...user, ...req.body};
         const messageAboutUpdatingUser = await updateUserById(+req.params.id, userToUpdate);
 
-        res.json(messageAboutUpdatingUser);
+        res.send(messageAboutUpdatingUser);
       } else {
         user.password = await hashPassword(user.password);
         const userToUpdate = {...user, ...req.body};
         const messageAboutUpdatingUser = await updateUserById(+req.params.id, userToUpdate);
 
-        res.json(messageAboutUpdatingUser);
+        res.send(messageAboutUpdatingUser);
       }
 
     } catch (e) {

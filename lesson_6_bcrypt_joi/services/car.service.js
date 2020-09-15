@@ -1,13 +1,13 @@
 const CarModel = require('../dataBase/models/car.model');
 
 module.exports = {
-  findAllCar: async () => CarModel.findAll(),
+  findAllCar: () => CarModel.findAll(),
 
-  findById: async (id) => CarModel.findOne({where: {id}}),
+  findById: (id) => CarModel.findOne({where: {id}}),
 
-  createCar: async (carObject) => CarModel.create(carObject),
+  createCar: (carObject) => CarModel.create(carObject).then(() => 'The car has been updated'),
 
-  updateCarById: async (id, carObject) => CarModel.update(carObject, {where: {id}}).then(() => 'The car has been updated'),
+  updateCarById: (id, carObject) => CarModel.update(carObject, {where: {id}}).then(() => 'The car has been updated'),
 
-  deleteCarById: async (id) => CarModel.destroy({where: {id}}).then(() => 'The car has been deleted')
+  deleteCarById: (id) => CarModel.destroy({where: {id}}).then(() => 'The car has been deleted')
 };

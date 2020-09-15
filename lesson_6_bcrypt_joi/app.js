@@ -1,5 +1,3 @@
-// Вам необхідно реалізувати валідатори на створення та оновлення машинки за допомогою Joi.
-
 const express = require('express');
 const sequelize = require('./dataBase');
 const apiRouter = require('./routes/api.router');
@@ -21,7 +19,7 @@ app.use('*', (err, req, res, next) => {
 });
 
 sequelize
-  .sync({alter: true})
+  .sync()
   .then(() => {
     app.listen(5000, (err) => {
       if (err) console.log(err);

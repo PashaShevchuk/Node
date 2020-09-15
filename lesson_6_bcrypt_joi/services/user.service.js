@@ -10,7 +10,7 @@ module.exports = {
     attributes: ['id', 'first_name', 'last_name', 'email', 'login']
   }),
 
-  createUser: (userObject) => UserModel.create(userObject),
+  createUser: (userObject) => UserModel.create(userObject).then(() => 'The user has been created'),
 
   updateUserById: (id, userObject) => UserModel.update(userObject, {where: {id}}).then(() => 'The user has been updated'),
 
