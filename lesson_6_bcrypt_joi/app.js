@@ -1,0 +1,36 @@
+// Вам необхідно реалізувати валідатори на створення та оновлення машинки за допомогою Joi.
+// Також потрібно обробляти помилки за допомогою власноруч створеної помилки, та мати єдине місце
+// для їх відловлення (err, req, res, next) в app файлі.
+// Також, необхідо реалізувати на реєстрації юзера його пароль. Та його перевірку при логіні
+
+const express = require('express');
+const sequelize = require('./dataBase');
+const apiRouter = require('./routes/api.router');
+
+const app = express();
+
+app.use(express.urlencoded({extended: true}));
+app.use(express.json());
+
+app.use('/api', apiRouter);
+
+app.use('*', (err, req, res, next) => {
+  res
+    .status(err.status || 404)
+    .json({
+      message: err.message || 'NOT FOUND',
+      code: err.customCode || ''
+    });
+});
+
+sequelize
+  .sync({alter: true})
+  .then(() => {
+    app.listen(5000, (err) => {
+      if (err) console.log(err);
+      console.log('Server listening on 5000');
+    });
+  })
+  .catch(reason => {
+    console.log(reason);
+  });
