@@ -1,7 +1,7 @@
 module.exports = {
   // 400
   BAD_REQUEST_NOT_VALID_CAR: {
-    message: 'Please fill in the fields: model, price year',
+    message: 'Please enter data in all fields',
     code: 4001
   },
   BAD_REQUEST_NOT_VALID_CAR_YEAR: {

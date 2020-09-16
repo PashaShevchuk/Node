@@ -1,15 +1,12 @@
 const UserModel = require('../dataBase/models/user.model');
-const {userService} = require('../services');
 const bcrypt = require('bcrypt');
+const {userService} = require('../services');
 const {newUserValidator, updateUserValidator} = require('../validators');
 
 const {
   CustomError,
   statusCodesEnum,
-  usersErrors: {
-    BAD_REQUEST_NOT_VALID_USER,
-    NOT_FOUND_USER
-  }
+  usersErrors: {BAD_REQUEST_NOT_VALID_USER, NOT_FOUND_USER}
 } = require('../errors');
 
 module.exports = {
@@ -25,7 +22,6 @@ module.exports = {
           BAD_REQUEST_NOT_VALID_USER.code)    //   BAD_REQUEST_NOT_VALID_USER.code)
         );
       }
-
       next();
 
     } catch (e) {
@@ -45,7 +41,6 @@ module.exports = {
           NOT_FOUND_USER.code)
         );
       }
-
       next();
 
     } catch (e) {
@@ -61,7 +56,7 @@ module.exports = {
       if (!dataToUpdateUser) {
         return next(new CustomError(
           BAD_REQUEST_NOT_VALID_USER.message,
-          statusCodesEnum.NOT_FOUND,
+          statusCodesEnum.BAD_REQUEST,
           BAD_REQUEST_NOT_VALID_USER.code)
         );
       }
@@ -76,7 +71,6 @@ module.exports = {
       }
 
       req.user = user;
-
       next();
 
     } catch (e) {
@@ -114,8 +108,8 @@ module.exports = {
       if (!isPasswordsEquals) {
         return next(new CustomError(NOT_FOUND_USER.message, statusCodesEnum.NOT_FOUND, NOT_FOUND_USER.code));
       }
-      req.authMessage = 'Authorization successful'
 
+      req.authMessage = 'Authorization successful'
       next();
 
     } catch (e) {
