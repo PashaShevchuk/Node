@@ -39,7 +39,7 @@ module.exports = {
 
   updateOneUser: async (req, res) => {
     try {
-      const user = req.body;
+      const user = req.user;
 
       if (!user.password) {
         const userToUpdate = {...user, ...req.body};

@@ -45,7 +45,6 @@ module.exports = {
           NOT_FOUND_USER.code)
         );
       }
-      req.user = user;
 
       next();
 
@@ -57,7 +56,9 @@ module.exports = {
   checkUpdateUserValidity: (req, res, next) => {
     try {
       const user = req.body;
-      if (Object.keys(user).length === 0) {
+      const dataToUpdateUser = Object.keys(user).length !== 0;
+
+      if (!dataToUpdateUser) {
         return next(new CustomError(
           BAD_REQUEST_NOT_VALID_USER.message,
           statusCodesEnum.NOT_FOUND,

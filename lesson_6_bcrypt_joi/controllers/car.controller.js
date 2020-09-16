@@ -26,8 +26,8 @@ module.exports = {
 
   createOneCar: async (req, res) => {
     try {
-      const createdCar = await createCar(req.body);
-      res.status(201).json(createdCar);
+      const messageAboutCreatingCar = await createCar(req.body);
+      res.status(201).send(messageAboutCreatingCar);
 
     } catch (e) {
       res.status(400).end(e.message);
@@ -36,8 +36,11 @@ module.exports = {
 
   updateOneCar: async (req, res) => {
     try {
-      const messageAboutUpdatingCar = await updateCarById(+req.params.id, req.body);
-      res.json(messageAboutUpdatingCar);
+      const car = req.body;
+      const carToUpdate = {...car, ...req.body};
+      const messageAboutUpdatingCar = await updateCarById(+req.params.id, carToUpdate);
+
+      res.send(messageAboutUpdatingCar);
 
     } catch (e) {
       res.status(400).end(e.message);
