@@ -1,10 +1,11 @@
-const {Router} = require('express');
+const { Router } = require('express');
+const { authController } = require('../controllers');
+const {
+  userMiddleware: { checkIsUserPresent, checkHashUserPassword }
+} = require('../middlewares');
+
 const authRouter = Router();
 
-const {authController} = require('../controllers');
-const {
-  userMiddleware: {checkIsUserPresent, checkHashUserPassword}
-} = require('../middlewares');
 
 authRouter.post('/', checkIsUserPresent, checkHashUserPassword, authController.login);
 

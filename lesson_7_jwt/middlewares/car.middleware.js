@@ -1,16 +1,17 @@
 const CarModel = require('../dataBase/models/car.model');
-const {newCarValidator, updateCarValidator} = require('../validators');
+const { newCarValidator, updateCarValidator } = require('../validators');
 const {
   CustomError,
   statusCodesEnum,
-  carsErrors: {BAD_REQUEST_NOT_VALID_CAR, NOT_FOUND_CAR}
+  carsErrors: { BAD_REQUEST_NOT_VALID_CAR, NOT_FOUND_CAR }
 } = require('../errors');
+
 
 module.exports = {
   checkCarValidity: (req, res, next) => {
     try {
       const car = req.body;
-      const {error} = newCarValidator.validate(car);
+      const { error } = newCarValidator.validate(car);
 
       if (error) {
         return next(new CustomError(error.details[0].message,
@@ -18,6 +19,7 @@ module.exports = {
           BAD_REQUEST_NOT_VALID_CAR.code)
         );
       }
+
       next();
 
     } catch (e) {
@@ -28,7 +30,7 @@ module.exports = {
   isCarInDB: async (req, res, next) => {
     try {
       const id = +req.params.id;
-      const car = await CarModel.findOne({where: {id}});
+      const car = await CarModel.findOne({ where: { id } });
 
       if (!car) {
         return next(new CustomError(
@@ -37,6 +39,7 @@ module.exports = {
           NOT_FOUND_CAR.code)
         );
       }
+
       next();
 
     } catch (e) {
@@ -47,8 +50,8 @@ module.exports = {
   checkUpdateCarValidity: (req, res, next) => {
     try {
       const car = req.body;
-
       const dataToUpdateCar = Object.keys(car).length !== 0;
+
       if (!dataToUpdateCar) {
         return next(new CustomError(
           BAD_REQUEST_NOT_VALID_CAR.message,
@@ -57,7 +60,8 @@ module.exports = {
         );
       }
 
-      const {error} = updateCarValidator.validate(car);
+      const { error } = updateCarValidator.validate(car);
+
       if (error) {
         return next(new CustomError(
           error.details[0].message,

@@ -4,11 +4,13 @@ const apiRouter = require('./routes/api.router');
 
 const app = express();
 
-app.use(express.urlencoded({extended: true}));
+app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use('/api', apiRouter);
 
+
+// error
 app.use('*', (err, req, res, next) => {
   res
     .status(err.status || 404)
@@ -17,6 +19,7 @@ app.use('*', (err, req, res, next) => {
       code: err.customCode || ''
     });
 });
+
 
 sequelize
   .sync()

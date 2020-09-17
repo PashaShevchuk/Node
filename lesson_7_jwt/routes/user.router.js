@@ -1,17 +1,18 @@
-const {Router} = require('express');
+const { Router } = require('express');
 const {
-  userMiddleware: {checkUserValidity, isUserInDbById, checkUpdateUserValidity}
+  userMiddleware: { checkUserValidity, isUserInDbById, checkUpdateUserValidity }
 } = require('../middlewares');
 const {
-  userController: {fetchAll, findOneUser, createOneUser, updateOneUser, deleteOneUser}
+  userController: { fetchAll, findOne, createOne, updateOne, deleteOne }
 } = require('../controllers');
 
 const userRouter = Router();
 
-userRouter.get('/', fetchAll);                                                    // взяти всіх користувачів
-userRouter.get('/:id', isUserInDbById, findOneUser);                              // взяти одного користувача
-userRouter.post('/', checkUserValidity, createOneUser);                           // створити користувача
-userRouter.patch('/:id', isUserInDbById, checkUpdateUserValidity, updateOneUser); // оновити користувача
-userRouter.delete('/:id', isUserInDbById, deleteOneUser);                         // видалити користувача
+
+userRouter.get('/', fetchAll);                                                // взяти всіх користувачів
+userRouter.get('/:id', isUserInDbById, findOne);                              // взяти одного користувача
+userRouter.post('/', checkUserValidity, createOne);                           // створити користувача
+userRouter.patch('/:id', isUserInDbById, checkUpdateUserValidity, updateOne); // оновити користувача
+userRouter.delete('/:id', isUserInDbById, deleteOne);                         // видалити користувача
 
 module.exports = userRouter;

@@ -1,12 +1,14 @@
 const {
-  userService: {findAllUsers, findById, createUser, updateUserById, deleteUserById}
+  userService: { getAll, findById, makeOne, updateById, deleteById }
 } = require('../services');
-const {hashPassword} = require('../helpers');
+const { hashPassword } = require('../helpers');
+
 
 module.exports = {
   fetchAll: async (req, res) => {
     try {
-      const users = await findAllUsers();
+      const users = await getAll();
+
       res.json(users);
 
     } catch (e) {
@@ -14,9 +16,10 @@ module.exports = {
     }
   },
 
-  findOneUser: async (req, res) => {
+  findOne: async (req, res) => {
     try {
       const user = await findById(+req.params.id);
+
       res.json(user);
 
     } catch (e) {
@@ -24,11 +27,12 @@ module.exports = {
     }
   },
 
-  createOneUser: async (req, res) => {
+  createOne: async (req, res) => {
     try {
       const user = req.body;
       user.password = await hashPassword(user.password);
-      const messageAboutCreatingUser = await createUser(user);
+
+      const messageAboutCreatingUser = await makeOne(user);
 
       res.status(201).send(messageAboutCreatingUser);
 
@@ -37,19 +41,21 @@ module.exports = {
     }
   },
 
-  updateOneUser: async (req, res) => {
+  updateOne: async (req, res) => {
     try {
       const user = req.user;
 
       if (!user.password) {
-        const userToUpdate = {...user, ...req.body};
-        const messageAboutUpdatingUser = await updateUserById(+req.params.id, userToUpdate);
+        const userToUpdate = { ...user, ...req.body };
+        const messageAboutUpdatingUser = await updateById(+req.params.id, userToUpdate);
 
         res.send(messageAboutUpdatingUser);
+
       } else {
         user.password = await hashPassword(user.password);
-        const userToUpdate = {...user, ...req.body};
-        const messageAboutUpdatingUser = await updateUserById(+req.params.id, userToUpdate);
+        const userToUpdate = { ...user, ...req.body };
+
+        const messageAboutUpdatingUser = await updateById(+req.params.id, userToUpdate);
 
         res.send(messageAboutUpdatingUser);
       }
@@ -59,9 +65,10 @@ module.exports = {
     }
   },
 
-  deleteOneUser: async (req, res) => {
+  deleteOne: async (req, res) => {
     try {
-      const messageAboutDeletingUser = await deleteUserById(+req.params.id);
+      const messageAboutDeletingUser = await deleteById(+req.params.id);
+
       res.status(200).send(messageAboutDeletingUser);
 
     } catch (e) {

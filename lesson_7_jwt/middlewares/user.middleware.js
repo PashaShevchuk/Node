@@ -1,19 +1,19 @@
-const UserModel = require('../dataBase/models/user.model');
 const bcrypt = require('bcrypt');
-const {userService} = require('../services');
-const {newUserValidator, updateUserValidator} = require('../validators');
-
+const UserModel = require('../dataBase/models/user.model');
+const { userService } = require('../services');
+const { newUserValidator, updateUserValidator } = require('../validators');
 const {
   CustomError,
   statusCodesEnum,
-  usersErrors: {BAD_REQUEST_NOT_VALID_USER, NOT_FOUND_USER}
+  usersErrors: { BAD_REQUEST_NOT_VALID_USER, NOT_FOUND_USER }
 } = require('../errors');
+
 
 module.exports = {
   checkUserValidity: (req, res, next) => {
     try {
       const user = req.body;
-      const {error} = newUserValidator.validate(user);
+      const { error } = newUserValidator.validate(user);
 
       if (error) {
         return next(new CustomError(   // or  // return next(new CustomError(
@@ -22,6 +22,7 @@ module.exports = {
           BAD_REQUEST_NOT_VALID_USER.code)    //   BAD_REQUEST_NOT_VALID_USER.code)
         );
       }
+
       next();
 
     } catch (e) {
@@ -32,7 +33,7 @@ module.exports = {
   isUserInDbById: async (req, res, next) => {
     try {
       const id = +req.params.id;
-      const user = await UserModel.findOne({where: {id}});
+      const user = await UserModel.findOne({ where: { id } });
 
       if (!user) {
         return next(new CustomError(
@@ -41,6 +42,7 @@ module.exports = {
           NOT_FOUND_USER.code)
         );
       }
+
       next();
 
     } catch (e) {
@@ -61,7 +63,8 @@ module.exports = {
         );
       }
 
-      const {error} = updateUserValidator.validate(user);
+      const { error } = updateUserValidator.validate(user);
+
       if (error) {
         return next(new CustomError(
           error.details[0].message,
@@ -80,8 +83,8 @@ module.exports = {
 
   checkIsUserPresent: async (req, res, next) => {
     try {
-      const {login} = req.body;
-      const user = await userService.findOneByParams({login});
+      const { login } = req.body;
+      const user = await userService.findOneByParams({ login });
 
       if (!user) {
         return next(new CustomError(
@@ -102,7 +105,7 @@ module.exports = {
   checkHashUserPassword: async (req, res, next) => {
     try {
       const user = req.user;
-      const {password} = req.body;
+      const { password } = req.body;
       const isPasswordsEquals = await bcrypt.compare(password, user.password);
 
       if (!isPasswordsEquals) {

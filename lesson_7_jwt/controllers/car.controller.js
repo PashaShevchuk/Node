@@ -1,12 +1,13 @@
 const {
-  carService: {findAllCar, findById, createCar, updateCarById, deleteCarById}
+  carService: { getAll, findById, makeOne, updateById, deleteById }
 } = require('../services');
 
 
 module.exports = {
   fetchAll: async (req, res) => {
     try {
-      const cars = await findAllCar();
+      const cars = await getAll();
+
       res.json(cars);
 
     } catch (e) {
@@ -14,9 +15,10 @@ module.exports = {
     }
   },
 
-  findOneCar: async (req, res) => {
+  findOne: async (req, res) => {
     try {
       const car = await findById(+req.params.id);
+
       res.json(car);
 
     } catch (e) {
@@ -24,9 +26,10 @@ module.exports = {
     }
   },
 
-  createOneCar: async (req, res) => {
+  createOne: async (req, res) => {
     try {
-      const messageAboutCreatingCar = await createCar(req.body);
+      const messageAboutCreatingCar = await makeOne(req.body);
+
       res.status(201).send(messageAboutCreatingCar);
 
     } catch (e) {
@@ -34,11 +37,11 @@ module.exports = {
     }
   },
 
-  updateOneCar: async (req, res) => {
+  updateOne: async (req, res) => {
     try {
       const car = req.car;
-      const carToUpdate = {...car, ...req.body};
-      const messageAboutUpdatingCar = await updateCarById(+req.params.id, carToUpdate);
+      const carToUpdate = { ...car, ...req.body };
+      const messageAboutUpdatingCar = await updateById(+req.params.id, carToUpdate);
 
       res.send(messageAboutUpdatingCar);
 
@@ -47,9 +50,10 @@ module.exports = {
     }
   },
 
-  deleteOneCar: async (req, res) => {
+  deleteOne: async (req, res) => {
     try {
-      const messageAboutDeletingCar = await deleteCarById(+req.params.id);
+      const messageAboutDeletingCar = await deleteById(+req.params.id);
+
       res.status(200).send(messageAboutDeletingCar);
 
     } catch (e) {

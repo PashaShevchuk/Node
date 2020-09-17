@@ -1,20 +1,21 @@
 const UserModel = require('../dataBase/models/user.model');
 
+
 module.exports = {
-  findAllUsers: () => UserModel.findAll({
+  getAll: () => UserModel.findAll({
     attributes: ['id', 'first_name', 'last_name', 'email', 'login']
   }),
 
   findById: (id) => UserModel.findOne({
-    where: {id},
+    where: { id },
     attributes: ['id', 'first_name', 'last_name', 'email', 'login']
   }),
 
-  createUser: (userObject) => UserModel.create(userObject).then(() => 'The user has been created'),
+  makeOne: (userObject) => UserModel.create(userObject).then(() => 'The user has been created'),
 
-  updateUserById: (id, userObject) => UserModel.update(userObject, {where: {id}}).then(() => 'The user has been updated'),
+  updateById: (id, userObject) => UserModel.update(userObject, { where: { id } }).then(() => 'The user has been updated'),
 
-  deleteUserById: (id) => UserModel.destroy({where: {id}}).then(() => 'The user has been deleted'),
+  deleteById: (id) => UserModel.destroy({ where: { id } }).then(() => 'The user has been deleted'),
 
-  findOneByParams: (findObject) => UserModel.findOne({where: findObject})
+  findOneByParams: (findObject) => UserModel.findOne({ where: findObject })
 };

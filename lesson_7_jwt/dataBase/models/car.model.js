@@ -1,5 +1,6 @@
-const {Model, DataTypes} = require('sequelize');
+const { Model, DataTypes } = require('sequelize');
 const sequelize = require('../index');
+
 
 class CarModel extends Model {
 }
@@ -10,18 +11,22 @@ CarModel.init({
     primaryKey: true,
     autoIncrement: true
   },
+
   model: {
     type: DataTypes.STRING,
     allowNull: false
   },
+
   price: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
+
   year: {
     type: DataTypes.INTEGER,
     allowNull: false
   },
+
 }, {
   sequelize,
   modelName: 'car',
