@@ -3,7 +3,7 @@ const { DataTypes } = require('sequelize');
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('access_tokens', {
+    await queryInterface.createTable('OAuth', {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -11,25 +11,32 @@ module.exports = {
         primaryKey: true
       },
 
-      first_name: {
+      access_token: {
         type: DataTypes.STRING,
         allowNull: false
       },
 
-      last_name: {
+      refresh_token: {
         type: DataTypes.STRING,
         allowNull: false
       },
 
-      email: {
+      user_id: {
+        type: DataTypes.INTEGER,
+        references: {
+          model: 'users',
+          key: 'id'
+        }
+      },
+
+      created_at: {
         type: DataTypes.STRING,
-        allowNull: false,
-        unique: true
+        default: new Date().toISOString()
       },
     });
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('access_tokens');
+    await queryInterface.dropTable('OAuth');
   }
 };
