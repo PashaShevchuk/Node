@@ -1,12 +1,19 @@
 const { createTokens } = require('../helpers');
+const {
+  oauthService: { create, deleteByParams, getByParams }
+} = require('../services');
 
 
 module.exports = {
   login: async (req, res, next) => {
     try {
+      const user = req.user;
       const tokens = createTokens();
 
-      //todo save tokens to DB
+      await create({
+        ...tokens,
+        user_id: user.id
+      });
 
       res.json(tokens);
 
@@ -17,13 +24,14 @@ module.exports = {
 
   refreshToken: async (req, res, next) => {
     try {
+      const user = req.user;
       const token = req.get('Authorization');
-      const netTokensPair = createTokens();
+      const newTokensPair = createTokens();
 
-      // todo remove old tokens from db
-      // todo insert new token to db
+      await deleteByParams({ refresh_token: token });
+      await create({ ...newTokensPair, user_id: user.id });
 
-      res.json(netTokensPair);
+      res.json(newTokensPair);
 
     } catch (e) {
       next(e);

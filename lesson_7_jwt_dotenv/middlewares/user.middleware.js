@@ -1,4 +1,5 @@
 const bcrypt = require('bcrypt');
+
 const UserModel = require('../dataBase/models/user.model');
 const { userService } = require('../services');
 const { newUserValidator, updateUserValidator } = require('../validators');
@@ -112,6 +113,7 @@ module.exports = {
         return next(new CustomError(NOT_FOUND_USER.message, statusCodesEnum.NOT_FOUND, NOT_FOUND_USER.code));
       }
 
+      req.user = user;
       next();
 
     } catch (e) {

@@ -1,9 +1,11 @@
 const { DataTypes } = require('sequelize');
 
+const { OAUTH, USERS } = require('../../config/db-tables.enum');
+
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('OAuth', {
+    await queryInterface.createTable(OAUTH, {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -24,7 +26,7 @@ module.exports = {
       user_id: {
         type: DataTypes.INTEGER,
         references: {
-          model: 'users',
+          model: USERS,
           key: 'id'
         }
       },
@@ -37,6 +39,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('OAuth');
+    await queryInterface.dropTable(OAUTH);
   }
 };

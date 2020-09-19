@@ -1,9 +1,12 @@
+const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = require('./words-for-db.config');
+
+
 module.exports = {
   "development": {
-    "username": "root",
-    "password": "022894",
-    "database": "auto_shop",
-    "host": "127.0.0.1",
+    "username": DB_USER,
+    "password": DB_PASSWORD,
+    "database": DB_NAME,
+    "host": DB_HOST,
     "dialect": "mysql"
   }
 };

@@ -28,7 +28,8 @@ module.exports = {
 
   createOne: async (req, res) => {
     try {
-      const messageAboutCreatingCar = await makeOne(req.body);
+      const { body, user } = req;
+      const messageAboutCreatingCar = await makeOne({ ...body, user_id: user.id });
 
       res.status(201).send(messageAboutCreatingCar);
 

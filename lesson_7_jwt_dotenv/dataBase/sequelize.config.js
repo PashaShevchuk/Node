@@ -1,6 +1,8 @@
 const { Sequelize } = require('sequelize');
 
+const { DB_NAME, DB_USER, DB_PASSWORD } = require('../config/words-for-db.config');
 
-module.exports = new Sequelize('auto_shop', 'root', '022894', {
+
+module.exports = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {
   host: 'localhost', dialect: 'mysql'
 });

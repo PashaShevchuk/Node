@@ -1,6 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../index');
+const { OAUTH } = require('../../config/db-tables.enum');
 const UserModel = require('./user.model');
 
 
@@ -17,12 +18,10 @@ OauthModel.init({
 
   access_token: {
     type: DataTypes.STRING,
-    allowNull: false
   },
 
   refresh_token: {
     type: DataTypes.STRING,
-    allowNull: false
   },
 
   user_id: {
@@ -32,13 +31,13 @@ OauthModel.init({
 
   created_at: {
     type: DataTypes.STRING,
-    default: new Date().toISOString()
+    defaultValue: new Date().toISOString()
   },
 
 }, {
   sequelize,
-  modelName: 'oauth',
-  tableName: 'OAuth',
+  modelName: OAUTH,
+  tableName: OAUTH,
   timestamps: false
 });
 
