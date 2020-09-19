@@ -112,7 +112,6 @@ module.exports = {
         return next(new CustomError(NOT_FOUND_USER.message, statusCodesEnum.NOT_FOUND, NOT_FOUND_USER.code));
       }
 
-      req.authMessage = 'Authorization successful'
       next();
 
     } catch (e) {

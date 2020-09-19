@@ -1,10 +1,33 @@
+const { createTokens } = require('../helpers');
+
+
 module.exports = {
-  login: async (req, res) => {
+  login: async (req, res, next) => {
     try {
-      res.json(req.authMessage);
+      const tokens = createTokens();
+
+      //todo save tokens to DB
+
+      res.json(tokens);
 
     } catch (e) {
-      res.status(404).end(e.message);
+      next(e);
+    }
+  },
+
+  refreshToken: async (req, res, next) => {
+    try {
+      const token = req.get('Authorization');
+      const netTokensPair = createTokens();
+
+      // todo remove old tokens from db
+      // todo insert new token to db
+
+      res.json(netTokensPair);
+
+    } catch (e) {
+      next(e);
     }
   }
+
 };

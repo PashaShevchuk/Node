@@ -1,12 +1,17 @@
 const { Router } = require('express');
-const { authController } = require('../controllers');
+
 const {
-  userMiddleware: { checkIsUserPresent, checkHashUserPassword }
+  authController: { login, refreshToken }
+} = require('../controllers');
+const {
+  userMiddleware: { checkIsUserPresent, checkHashUserPassword },
+  tokenMiddleware: { checkRefreshToken }
 } = require('../middlewares');
 
 const authRouter = Router();
 
 
-authRouter.post('/', checkIsUserPresent, checkHashUserPassword, authController.login);
+authRouter.post('/', checkIsUserPresent, checkHashUserPassword, login);
+authRouter.post('/refresh', checkRefreshToken, refreshToken);
 
 module.exports = authRouter;
