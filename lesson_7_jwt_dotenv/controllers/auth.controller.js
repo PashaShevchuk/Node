@@ -1,8 +1,9 @@
 const { createTokens } = require('../helpers');
 const {
-  oauthService: { create, deleteByParams, getByParams }
+  oauthService: { create, deleteByParams }
 } = require('../services');
 const { AUTHORIZATION } = require('../config/constants');
+const { NO_CONTENT } = require('../config/response-status-codes.enum');
 
 
 module.exports = {
@@ -17,6 +18,19 @@ module.exports = {
       });
 
       res.json(tokens);
+
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  logout: async (req, res, next) => {
+    try {
+      const token = req.get(AUTHORIZATION);
+
+      await deleteByParams({ access_token: token });
+
+      res.status(NO_CONTENT).end();
 
     } catch (e) {
       next(e);

@@ -2,6 +2,7 @@ const { DataTypes } = require('sequelize');
 
 const { USERS } = require('../../config/db-tables.enum');
 
+
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(t => {

@@ -1,4 +1,5 @@
 const { Router } = require('express');
+
 const {
   userMiddleware: { checkUserValidity, isUserInDbById, checkUpdateUserValidity }
 } = require('../middlewares');

@@ -1,6 +1,5 @@
 const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = require('./words-for-db.config');
 
-
 module.exports = {
   "development": {
     "username": DB_USER,

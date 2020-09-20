@@ -30,6 +30,7 @@ module.exports = {
   createOne: async (req, res) => {
     try {
       const user = req.body;
+
       user.password = await hashPassword(user.password);
 
       const messageAboutCreatingUser = await makeOne(user);
@@ -53,6 +54,7 @@ module.exports = {
 
       } else {
         user.password = await hashPassword(user.password);
+
         const userToUpdate = { ...user, ...req.body };
 
         const messageAboutUpdatingUser = await updateById(+req.params.id, userToUpdate);

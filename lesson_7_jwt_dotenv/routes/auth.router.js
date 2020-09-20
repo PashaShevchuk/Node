@@ -1,11 +1,11 @@
 const { Router } = require('express');
 
 const {
-  authController: { login, refreshToken }
+  authController: { login, refreshToken, logout }
 } = require('../controllers');
 const {
   userMiddleware: { checkIsUserPresent, checkHashUserPassword },
-  tokenMiddleware: { checkRefreshToken }
+  tokenMiddleware: { checkRefreshToken, checkAccessToken }
 } = require('../middlewares');
 
 const authRouter = Router();
@@ -13,6 +13,6 @@ const authRouter = Router();
 
 authRouter.post('/', checkIsUserPresent, checkHashUserPassword, login);
 authRouter.post('/refresh', checkRefreshToken, refreshToken);
-authRouter.post('/logout', checkRefreshToken, refreshToken);
+authRouter.post('/logout', checkAccessToken, logout);
 
 module.exports = authRouter;
