@@ -2,6 +2,7 @@ const { createTokens } = require('../helpers');
 const {
   oauthService: { create, deleteByParams, getByParams }
 } = require('../services');
+const { AUTHORIZATION } = require('../config/constants');
 
 
 module.exports = {
@@ -25,7 +26,7 @@ module.exports = {
   refreshToken: async (req, res, next) => {
     try {
       const user = req.user;
-      const token = req.get('Authorization');
+      const token = req.get(AUTHORIZATION);
       const newTokensPair = createTokens();
 
       await deleteByParams({ refresh_token: token });

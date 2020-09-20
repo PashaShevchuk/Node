@@ -1,18 +1,19 @@
 const { DataTypes } = require('sequelize');
 
+const { USERS } = require('../../config/db-tables.enum');
 
 module.exports = {
   up: (queryInterface, Sequelize) => {
     return queryInterface.sequelize.transaction(t => {
 
       return Promise.all([
-        queryInterface.addColumn('users', 'login', {
+        queryInterface.addColumn(USERS, 'login', {
           type: DataTypes.STRING,
           allowNull: false,
           unique: true
         }, { transaction: t }),
 
-        queryInterface.addColumn('users', 'password', {
+        queryInterface.addColumn(USERS, 'password', {
           type: Sequelize.STRING,
           allowNull: false,
         }, { transaction: t })
@@ -24,9 +25,9 @@ module.exports = {
     return queryInterface.sequelize.transaction(t => {
 
       return Promise.all([
-        queryInterface.removeColumn('users', 'login', { transaction: t }),
+        queryInterface.removeColumn(USERS, 'login', { transaction: t }),
 
-        queryInterface.removeColumn('users', 'password', { transaction: t })
+        queryInterface.removeColumn(USERS, 'password', { transaction: t })
       ]);
     });
   }

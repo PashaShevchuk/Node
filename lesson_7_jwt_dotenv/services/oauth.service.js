@@ -10,7 +10,7 @@ module.exports = {
     include: [UserModel]
   }),
 
-  create: (tokenObject) => OAuthModel.create(tokenObject).then(() => 'X created'),
+  create: (tokenObject) => OAuthModel.create(tokenObject),
 
-  deleteByParams: (params) => OAuthModel.destroy({ where: params }).then(() => 'XXX deleted'),
+  deleteByParams: (params) => OAuthModel.destroy({ where: params }),
 }

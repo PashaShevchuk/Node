@@ -1,9 +1,11 @@
 const { DataTypes } = require('sequelize');
 
+const { USERS } = require('../../config/db-tables.enum');
+
 
 module.exports = {
   up: async (queryInterface, Sequelize) => {
-    await queryInterface.createTable('users', {
+    await queryInterface.createTable(USERS, {
       id: {
         type: DataTypes.INTEGER,
         autoIncrement: true,
@@ -30,6 +32,6 @@ module.exports = {
   },
 
   down: async (queryInterface, Sequelize) => {
-    await queryInterface.dropTable('users');
+    await queryInterface.dropTable(USERS);
   }
 };

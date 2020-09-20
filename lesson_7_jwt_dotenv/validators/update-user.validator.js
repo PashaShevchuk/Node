@@ -1,4 +1,5 @@
 const Joi = require('joi');
+
 const { EMAIL } = require('../config/regexp.enum');
 
 

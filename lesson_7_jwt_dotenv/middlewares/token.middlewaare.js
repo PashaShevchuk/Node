@@ -9,12 +9,13 @@ const {
 const {
   oauthService: { getByParams }
 } = require('../services');
+const { AUTHORIZATION } = require('../config/constants');
 
 
 module.exports = {
   checkAccessToken: async (req, res, next) => {
     try {
-      const token = req.get('Authorization');
+      const token = req.get(AUTHORIZATION);
 
       if (!token) {
         return next(new CustomError(
@@ -35,18 +36,18 @@ module.exports = {
       });
 
       const tokenWithUser = await getByParams({ access_token: token });
-      req.user = tokenWithUser.user;
 
+      req.user = tokenWithUser.user;
       next();
 
     } catch (e) {
-      next(e);
+      next(e.status);
     }
   },
 
   checkRefreshToken: async (req, res, next) => {
     try {
-      const token = req.get('Authorization');
+      const token = req.get(AUTHORIZATION);
 
       if (!token) {
         return next(new CustomError(
@@ -66,7 +67,7 @@ module.exports = {
         }
       });
 
-      const tokens = await getByParams();
+      const tokens = await getByParams({ refresh_token: token });
 
       if (!tokens) {
         return next(new CustomError(
@@ -77,7 +78,6 @@ module.exports = {
       }
 
       req.user = tokens.user;
-
       next();
 
     } catch (e) {
