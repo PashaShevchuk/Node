@@ -4,29 +4,29 @@ const {
 
 
 module.exports = {
-  fetchAll: async (req, res) => {
+  fetchAll: async (req, res, next) => {
     try {
       const cars = await getAll();
 
       res.json(cars);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  findOne: async (req, res) => {
+  findOne: async (req, res, next) => {
     try {
       const car = await findById(+req.params.id);
 
       res.json(car);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  createOne: async (req, res) => {
+  createOne: async (req, res, next) => {
     try {
       const { body, user } = req;
       const messageAboutCreatingCar = await makeOne({ ...body, user_id: user.id });
@@ -34,11 +34,11 @@ module.exports = {
       res.status(201).send(messageAboutCreatingCar);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  updateOne: async (req, res) => {
+  updateOne: async (req, res, next) => {
     try {
       const car = req.car;
       const carToUpdate = { ...car, ...req.body };
@@ -47,18 +47,18 @@ module.exports = {
       res.send(messageAboutUpdatingCar);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  deleteOne: async (req, res) => {
+  deleteOne: async (req, res, next) => {
     try {
       const messageAboutDeletingCar = await deleteById(+req.params.id);
 
       res.status(200).send(messageAboutDeletingCar);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 };

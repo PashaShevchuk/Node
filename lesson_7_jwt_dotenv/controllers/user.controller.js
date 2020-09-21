@@ -5,29 +5,29 @@ const { hashPassword } = require('../helpers');
 
 
 module.exports = {
-  fetchAll: async (req, res) => {
+  fetchAll: async (req, res, next) => {
     try {
       const users = await getAll();
 
       res.json(users);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  findOne: async (req, res) => {
+  findOne: async (req, res, next) => {
     try {
       const user = await findById(+req.params.id);
 
       res.json(user);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  createOne: async (req, res) => {
+  createOne: async (req, res, next) => {
     try {
       const user = req.body;
 
@@ -38,11 +38,11 @@ module.exports = {
       res.status(201).send(messageAboutCreatingUser);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  updateOne: async (req, res) => {
+  updateOne: async (req, res, next) => {
     try {
       const user = req.user;
 
@@ -63,18 +63,18 @@ module.exports = {
       }
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 
-  deleteOne: async (req, res) => {
+  deleteOne: async (req, res, next) => {
     try {
       const messageAboutDeletingUser = await deleteById(+req.params.id);
 
       res.status(200).send(messageAboutDeletingUser);
 
     } catch (e) {
-      res.status(400).end(e.message);
+      next(e);
     }
   },
 };
