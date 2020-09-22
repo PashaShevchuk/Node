@@ -1,4 +1,4 @@
-const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = require('./words-for-db.config');
+const { DB_NAME, DB_USER, DB_PASSWORD, DB_HOST } = require('./config');
 
 module.exports = {
   "development": {

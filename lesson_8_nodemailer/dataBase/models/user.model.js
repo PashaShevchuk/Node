@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../index');
-const { USERS } = require('../../config/db-tables.enum');
+const { USERS } = require('../../configs/db-tables.enum');
 
 class UserModel extends Model {
 }

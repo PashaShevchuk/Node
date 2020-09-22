@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { EMAIL } = require('../config/regexp.enum');
+const { EMAIL } = require('../configs/regexp.enum');
 
 
 module.exports = Joi.object().keys({

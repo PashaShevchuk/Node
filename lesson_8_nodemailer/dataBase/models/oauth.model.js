@@ -1,7 +1,7 @@
 const { Model, DataTypes } = require('sequelize');
 
 const sequelize = require('../index');
-const { OAUTH } = require('../../config/db-tables.enum');
+const { OAUTH } = require('../../configs/db-tables.enum');
 const UserModel = require('./user.model');
 
 

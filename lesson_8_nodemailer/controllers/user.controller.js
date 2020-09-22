@@ -35,6 +35,8 @@ module.exports = {
 
       const messageAboutCreatingUser = await makeOne(user);
 
+      // todo send mail to user
+
       res.status(201).send(messageAboutCreatingUser);
 
     } catch (e) {

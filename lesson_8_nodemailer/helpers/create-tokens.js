@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require('../config/words-for-db.config');
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require('../configs/config');
 
 
 module.exports = () => {

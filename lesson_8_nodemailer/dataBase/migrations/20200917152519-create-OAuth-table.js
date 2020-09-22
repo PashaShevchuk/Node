@@ -1,6 +1,6 @@
 const { DataTypes } = require('sequelize');
 
-const { OAUTH, USERS } = require('../../config/db-tables.enum');
+const { OAUTH, USERS } = require('../../configs/db-tables.enum');
 
 
 module.exports = {

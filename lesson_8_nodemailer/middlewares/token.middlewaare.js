@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 
-const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require('../config/words-for-db.config');
+const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require('../configs/config');
 const {
   CustomError,
   statusCodesEnum,
@@ -9,7 +9,7 @@ const {
 const {
   oauthService: { getByParams }
 } = require('../services');
-const { AUTHORIZATION } = require('../config/constants');
+const { AUTHORIZATION } = require('../configs/constants');
 
 
 module.exports = {

@@ -1,6 +1,6 @@
 const { Sequelize } = require('sequelize');
 
-const { DB_NAME, DB_USER, DB_PASSWORD } = require('../config/words-for-db.config');
+const { DB_NAME, DB_USER, DB_PASSWORD } = require('../configs/config');
 
 
 module.exports = new Sequelize(DB_NAME, DB_USER, DB_PASSWORD, {

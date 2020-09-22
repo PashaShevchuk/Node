@@ -2,8 +2,8 @@ const { createTokens } = require('../helpers');
 const {
   oauthService: { create, deleteByParams }
 } = require('../services');
-const { AUTHORIZATION } = require('../config/constants');
-const { NO_CONTENT } = require('../config/response-status-codes.enum');
+const { AUTHORIZATION } = require('../configs/constants');
+const { NO_CONTENT } = require('../configs/response-status-codes.enum');
 
 
 module.exports = {
