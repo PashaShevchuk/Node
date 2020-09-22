@@ -3,7 +3,7 @@ const EmailTemplates = require('email-templates');
 const path = require('path');
 
 const htmlTemplate = require('../email-templates');
-const { ROOT_EMAIL, ROOT_EMAIL_PASS } = require('../configs/config');
+const { ROOT_EMAIL, ROOT_EMAIL_PASSWORD, FRONTEND_URL } = require('../configs/config');
 
 
 const emailTemplates = new EmailTemplates({
@@ -17,17 +17,18 @@ const transporter = mailer.createTransport({
   service: 'gmail',
   auth: {
     user: ROOT_EMAIL,
-    pass: ROOT_EMAIL_PASS
+    pass: ROOT_EMAIL_PASSWORD
   }
 });
 
-
-module.exports = {
-  async sendMail(userMail, action) {
+class EmailService {
+  async sendMail(userMail, action, context) {
     try {
       const templateInfo = htmlTemplate[action];
 
-      const html = await emailTemplates.render(templateInfo.templateFileName);
+      const html = await emailTemplates.render(templateInfo.templateFileName, {
+        ...context, frontendUrl: FRONTEND_URL
+      });
 
       const mailOptions = {
         from: 'NO REPLY CAR SHOP',
@@ -38,9 +39,9 @@ module.exports = {
 
       return transporter.sendMail(mailOptions);
     } catch (e) {
-      console.log('***********************************************');
       console.log(e);
-      console.log('***********************************************');
     }
   }
 }
+
+module.exports = new EmailService();

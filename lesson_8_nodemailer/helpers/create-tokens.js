@@ -4,7 +4,7 @@ const { ACCESS_TOKEN_SECRET, REFRESH_TOKEN_SECRET } = require('../configs/config
 
 
 module.exports = () => {
-  const access_token = jwt.sign({}, ACCESS_TOKEN_SECRET, { expiresIn: '10s' });
+  const access_token = jwt.sign({}, ACCESS_TOKEN_SECRET, { expiresIn: '15m' });
   const refresh_token = jwt.sign({}, REFRESH_TOKEN_SECRET, { expiresIn: '1d' });
 
   return {

@@ -1,7 +1,9 @@
 const {
+  emailService,
   userService: { getAll, findById, makeOne, updateById, deleteById }
 } = require('../services');
 const { hashPassword } = require('../helpers');
+const { WELCOME } = require('../configs/email-action.enum');
 
 
 module.exports = {
@@ -35,7 +37,7 @@ module.exports = {
 
       const messageAboutCreatingUser = await makeOne(user);
 
-      // todo send mail to user
+      await emailService.sendMail(user.email, WELCOME, { userName: user.email });
 
       res.status(201).send(messageAboutCreatingUser);
 

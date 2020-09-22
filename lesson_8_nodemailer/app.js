@@ -1,12 +1,11 @@
 const express = require('express');
-const dotenv = require('dotenv');
+require('dotenv').config();
 
 const sequelize = require('./dataBase');
 const apiRouter = require('./routes/api.router');
 
 const app = express();
 
-dotenv.config();
 
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
@@ -38,3 +37,9 @@ sequelize
   .catch(reason => {
     console.log(reason);
   });
+
+
+process.on('unhandledRejection', reason => {
+  console.log(reason);
+  process.exit(0);
+});
