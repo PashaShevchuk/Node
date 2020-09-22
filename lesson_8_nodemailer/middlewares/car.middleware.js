@@ -30,6 +30,7 @@ module.exports = {
   isCarInDB: async (req, res, next) => {
     try {
       const id = +req.params.id;
+
       const car = await CarModel.findOne({ where: { id } });
 
       if (!car) {
@@ -40,6 +41,7 @@ module.exports = {
         );
       }
 
+      req.car = car;
       next();
 
     } catch (e) {

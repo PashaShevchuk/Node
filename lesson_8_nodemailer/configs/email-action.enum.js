@@ -1,3 +1,5 @@
 module.exports = {
-  WELCOME: 'welcome'
+  WELCOME: 'welcome',
+  CREATE_CAR: 'createCar',
+  DELETE_CAR: 'deleteCar'
 }

@@ -52,6 +52,7 @@ module.exports = {
 
       if (!user.password) {
         const userToUpdate = { ...user, ...req.body };
+
         const messageAboutUpdatingUser = await updateById(+req.params.id, userToUpdate);
 
         res.send(messageAboutUpdatingUser);

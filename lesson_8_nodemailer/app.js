@@ -39,6 +39,7 @@ sequelize
   });
 
 
+// promise error
 process.on('unhandledRejection', reason => {
   console.log(reason);
   process.exit(0);

@@ -21,6 +21,7 @@ const transporter = mailer.createTransport({
   }
 });
 
+
 class EmailService {
   async sendMail(userMail, action, context) {
     try {

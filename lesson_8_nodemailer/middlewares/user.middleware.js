@@ -34,6 +34,7 @@ module.exports = {
   isUserInDbById: async (req, res, next) => {
     try {
       const id = +req.params.id;
+
       const user = await UserModel.findOne({ where: { id } });
 
       if (!user) {
@@ -85,6 +86,7 @@ module.exports = {
   checkIsUserPresent: async (req, res, next) => {
     try {
       const { login } = req.body;
+
       const user = await userService.findOneByParams({ login });
 
       if (!user) {
@@ -107,6 +109,7 @@ module.exports = {
     try {
       const user = req.user;
       const { password } = req.body;
+
       const isPasswordsEquals = await bcrypt.compare(password, user.password);
 
       if (!isPasswordsEquals) {
