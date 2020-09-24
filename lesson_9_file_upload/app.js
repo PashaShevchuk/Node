@@ -1,4 +1,6 @@
 const express = require('express');
+const fileUpload = require('express-fileupload');
+const path = require('path');
 require('dotenv').config();
 
 const sequelize = require('./dataBase');
@@ -6,9 +8,11 @@ const apiRouter = require('./routes/api.router');
 
 const app = express();
 
-
+app.use(fileUpload({}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use(express.static(path.join(process.cwd(), 'public')));
 
 app.use('/api', apiRouter);
 

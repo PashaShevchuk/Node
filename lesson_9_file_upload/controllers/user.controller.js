@@ -1,3 +1,7 @@
+const uuid = require('uuid').v4();
+const fs = require('fs-extra').promises;
+const path = require('path');
+
 const {
   emailService,
   userService: { getAll, findById, makeOne, updateById, deleteById }
@@ -35,11 +39,22 @@ module.exports = {
 
       user.password = await hashPassword(user.password);
 
-      const messageAboutCreatingUser = await makeOne(user);
+      let newUser = await makeOne(user);
+
+      if (req.photos) {
+        const avatar = req.photos[0];
+        const photoDir = `/users/${ newUser.id }/photos`;
+        const fileExtension = avatar.name.split('.').pop();
+        const photoName = `${ uuid }.${ fileExtension }`;
+
+        await fs.mkdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
+        await avatar.mv(path.join(process.cwd(), 'public', photoDir, photoName));
+        newUser = await updateById(newUser.id, { avatar: `${ photoDir }/${ photoName }` })
+      }
 
       await emailService.sendMail(user.email, WELCOME, { userName: user.email });
 
-      res.status(201).send(messageAboutCreatingUser);
+      res.status(201).json(newUser);
 
     } catch (e) {
       next(e);
@@ -53,18 +68,18 @@ module.exports = {
       if (!user.password) {
         const userToUpdate = { ...user, ...req.body };
 
-        const messageAboutUpdatingUser = await updateById(+req.params.id, userToUpdate);
+        const updatedUser = await updateById(+req.params.id, userToUpdate);
 
-        res.send(messageAboutUpdatingUser);
+        res.json(updatedUser);
 
       } else {
         user.password = await hashPassword(user.password);
 
         const userToUpdate = { ...user, ...req.body };
 
-        const messageAboutUpdatingUser = await updateById(+req.params.id, userToUpdate);
+        const updatedUser = await updateById(+req.params.id, userToUpdate);
 
-        res.send(messageAboutUpdatingUser);
+        res.json(updatedUser);
       }
 
     } catch (e) {

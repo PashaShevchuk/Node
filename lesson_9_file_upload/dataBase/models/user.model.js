@@ -40,6 +40,10 @@ UserModel.init({
     allowNull: false,
   },
 
+  avatar: {
+    type: DataTypes.STRING,
+  },
+
 }, {
   sequelize,
   modelName: 'user',

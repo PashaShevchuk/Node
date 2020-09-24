@@ -137,7 +137,6 @@ module.exports = {
           BAD_REQUEST_NOT_VALID_USER.code)
         );
       }
-
       next();
 
     } catch (e) {
