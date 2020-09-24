@@ -1,6 +1,6 @@
 const Joi = require('joi');
 
-const { EMAIL } = require('../configs/regexp.enum');
+const { EMAIL, PASSWORD } = require('../configs/regexp.enum');
 
 
 module.exports = Joi.object().keys({
@@ -12,5 +12,5 @@ module.exports = Joi.object().keys({
 
   login: Joi.string().trim().alphanum().min(2).max(50).required(),
 
-  password: Joi.string().trim().min(8).required(),
+  password: Joi.string().trim().regex(PASSWORD).min(8).required(),
 });

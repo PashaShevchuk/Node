@@ -1,7 +1,7 @@
 module.exports = {
   // 400
   BAD_REQUEST_NOT_VALID_USER: {
-    message: 'Please enter data in all fields',
+    message: 'The entered data is not valid',
     code: 4001
   },
   BAD_REQUEST_NOT_VALID_EMAIL: {

@@ -1,5 +1,11 @@
 const UserModel = require('../dataBase/models/user.model');
 
+// Models can be defined in two equivalent ways in Sequelize:
+// 1. Calling sequelize.define(modelName, attributes, options);
+// 2. Extending Model and calling init(attributes, options);
+// I use the second way.
+// There's an update method for the Model and a separate update method for an Instance (record). Model.update() updates
+// all matching records and returns an array. Instance.update() updates the record and returns an instance object.
 
 module.exports = {
   getAll: () => UserModel.findAll({
@@ -11,13 +17,17 @@ module.exports = {
     attributes: ['id', 'first_name', 'last_name', 'email', 'login']
   }),
 
-  // makeOne: (userObject) => UserModel.create(userObject).then((user) => 'The user has been created'),
-  makeOne: async (userObject) => {
-    await UserModel.create(userObject);
-    const user = await UserModel.findOne({ where: userObject });
-    console.log(user);
-    return user;
-  },
+  // 1 method
+  makeOne: (userObject) => UserModel.create(userObject).then((user) => 'The user has been created'),
+  // 2 method, if we need to return an object.
+  // makeOne: async (userObject) => {
+  //   await UserModel.create(userObject);
+  //
+  //   return await UserModel.findOne({
+  //     where: userObject,
+  //     attributes: ['id', 'first_name', 'last_name', 'email', 'login']
+  //   });
+  // },
 
   updateById: (id, userObject) => UserModel.update(userObject, { where: { id } }).then(() => 'The user has been updated'),
 

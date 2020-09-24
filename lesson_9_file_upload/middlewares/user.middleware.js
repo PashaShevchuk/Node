@@ -10,7 +10,6 @@ const {
 } = require('../errors');
 
 
-
 module.exports = {
   checkUserValidity: (req, res, next) => {
     try {
@@ -118,6 +117,27 @@ module.exports = {
       }
 
       req.user = user;
+      next();
+
+    } catch (e) {
+      next(e);
+    }
+  },
+
+  checkIsUserCreatedInDb: async (req, res, next) => {
+    try {
+      const { login } = req.body;
+
+      const user = await userService.findOneByParams({ login });
+
+      if (user) {
+        return next(new CustomError(
+          BAD_REQUEST_NOT_VALID_USER.message,
+          statusCodesEnum.BAD_REQUEST,
+          BAD_REQUEST_NOT_VALID_USER.code)
+        );
+      }
+
       next();
 
     } catch (e) {
