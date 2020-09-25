@@ -21,12 +21,13 @@ module.exports = {
   // makeOne: (userObject) => UserModel.create(userObject).then((user) => 'The user has been created'),
 
   // 2 method, if we need to return an object.
-  makeOne: async (userObject) => {
-    await UserModel.create(userObject);
+  makeOne: async (userObject, transaction) => {
+    await UserModel.create(userObject, { transaction });
 
     return await UserModel.findOne({
       where: userObject,
-      attributes: ['id', 'first_name', 'last_name', 'email', 'login', 'avatar']
+      attributes: ['id', 'first_name', 'last_name', 'email', 'login', 'avatar'],
+      transaction
     });
   },
 
@@ -34,12 +35,13 @@ module.exports = {
   // updateById: (id, userObject) => UserModel.update(userObject, { where: { id } }).then(() => 'The user has been updated'),
 
   // 2 method
-  updateById: async (id, userObject) => {
-    await UserModel.update(userObject, { where: { id } });
+  updateById: async (id, userObject, transaction) => {
+    await UserModel.update(userObject, { where: { id }, transaction });
 
     return await UserModel.findOne({
       where: { id },
-      attributes: ['id', 'first_name', 'last_name', 'email', 'login', 'avatar']
+      attributes: ['id', 'first_name', 'last_name', 'email', 'login', 'avatar'],
+      transaction
     });
   },
 

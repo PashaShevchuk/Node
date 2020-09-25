@@ -49,7 +49,7 @@ module.exports = {
 
         } else {
           return next(new CustomError(
-            `${BAD_REQUEST_NOT_VALID_DOCUMENT_TYPE.message} ${name}`,
+            `${ BAD_REQUEST_NOT_VALID_DOCUMENT_TYPE.message } ${ name }`,
             statusCodesEnum.BAD_REQUEST,
             BAD_REQUEST_NOT_VALID_DOCUMENT_TYPE.code)
           );
@@ -68,7 +68,11 @@ module.exports = {
 
   checkUserPhotoCount: (req, res, next) => {
     try {
-      if (req.files && req.photos.length > 1) {
+      if (!req.photos) {
+        return next();
+      }
+
+      if (req.photos.length > 1) {
         return next(new CustomError(
           BAD_REQUEST_NOT_VALID_PHOTO_COUNT.message,
           statusCodesEnum.BAD_REQUEST,
@@ -76,6 +80,7 @@ module.exports = {
         );
       }
 
+      req.avatar = req.photos[0];
       next();
 
     } catch (e) {

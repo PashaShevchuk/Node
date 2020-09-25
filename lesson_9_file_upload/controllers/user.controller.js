@@ -2,6 +2,7 @@ const uuid = require('uuid').v4();
 const fs = require('fs-extra').promises;
 const path = require('path');
 
+const sequelize = require('../dataBase');
 const {
   emailService,
   userService: { getAll, findById, makeOne, updateById, deleteById }
@@ -34,29 +35,32 @@ module.exports = {
   },
 
   createOne: async (req, res, next) => {
+    const transaction = await sequelize.transaction();
+
     try {
-      const user = req.body;
+      const { body: user, avatar } = req;
 
       user.password = await hashPassword(user.password);
+      let newUser = await makeOne(user, transaction);
 
-      let newUser = await makeOne(user);
-
-      if (req.photos) {
-        const avatar = req.photos[0];
+      if (avatar) {
         const photoDir = `/users/${ newUser.id }/photos`;
         const fileExtension = avatar.name.split('.').pop();
         const photoName = `${ uuid }.${ fileExtension }`;
 
         await fs.mkdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
         await avatar.mv(path.join(process.cwd(), 'public', photoDir, photoName));
-        newUser = await updateById(newUser.id, { avatar: `${ photoDir }/${ photoName }` })
+        newUser = await updateById(newUser.id, { avatar: `${ photoDir }/${ photoName }` }, transaction)
       }
 
       await emailService.sendMail(user.email, WELCOME, { userName: user.email });
+      await transaction.commit();
 
       res.status(201).json(newUser);
 
     } catch (e) {
+      await transaction.rollback();
+
       next(e);
     }
   },
