@@ -44,13 +44,13 @@ module.exports = {
       let newUser = await makeOne(user, transaction);
 
       if (avatar) {
-        const photoDir = `/users/${ newUser.id }/photos`;
+        const photoDir = `/users/${ newUser.id }/photos/avatar`;
         const fileExtension = avatar.name.split('.').pop();
         const photoName = `${ uuid }.${ fileExtension }`;
 
         await fs.mkdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
         await avatar.mv(path.join(process.cwd(), 'public', photoDir, photoName));
-        newUser = await updateById(newUser.id, { avatar: `${ photoDir }/${ photoName }` }, transaction)
+        newUser = await updateById(newUser.id, { avatar: `${ photoDir }/${ photoName }` }, transaction);
       }
 
       await emailService.sendMail(user.email, WELCOME, { userName: user.email });
@@ -66,27 +66,43 @@ module.exports = {
   },
 
   updateOne: async (req, res, next) => {
+    const transaction = await sequelize.transaction();
+
     try {
-      const user = req.user;
+      const { user, avatar } = req;
 
-      if (!user.password) {
-        const userToUpdate = { ...user, ...req.body };
+      if (req.body.password) {
+        req.body.password = await hashPassword(user.password);
+      }
 
-        const updatedUser = await updateById(+req.params.id, userToUpdate);
+      if (avatar) {
+        const photoDir = `/users/${ user.id }/photos/avatar`;
+        const fileExtension = avatar.name.split('.').pop();
+        const photoName = `${ uuid }.${ fileExtension }`;
+
+        await fs.rmdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
+        await fs.mkdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
+        await avatar.mv(path.join(process.cwd(), 'public', photoDir, photoName));
+
+        const userToUpdate = { ...user, ...req.body, avatar: `${ photoDir }/${ photoName }` };
+
+        const updatedUser = await updateById(+req.params.id, userToUpdate, transaction);
+        await transaction.commit();
 
         res.json(updatedUser);
 
       } else {
-        user.password = await hashPassword(user.password);
-
         const userToUpdate = { ...user, ...req.body };
 
-        const updatedUser = await updateById(+req.params.id, userToUpdate);
+        const updatedUser = await updateById(+req.params.id, userToUpdate, transaction);
+        await transaction.commit();
 
         res.json(updatedUser);
       }
 
     } catch (e) {
+      await transaction.rollback();
+
       next(e);
     }
   },

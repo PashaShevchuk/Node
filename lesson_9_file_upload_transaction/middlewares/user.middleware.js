@@ -45,6 +45,7 @@ module.exports = {
         );
       }
 
+      req.user = user;
       next();
 
     } catch (e) {
@@ -55,16 +56,6 @@ module.exports = {
   checkUpdateUserValidity: (req, res, next) => {
     try {
       const user = req.body;
-      const dataToUpdateUser = Object.keys(user).length !== 0;
-
-      if (!dataToUpdateUser) {
-        return next(new CustomError(
-          BAD_REQUEST_NOT_VALID_USER.message,
-          statusCodesEnum.BAD_REQUEST,
-          BAD_REQUEST_NOT_VALID_USER.code)
-        );
-      }
-
       const { error } = updateUserValidator.validate(user);
 
       if (error) {
@@ -75,7 +66,6 @@ module.exports = {
         );
       }
 
-      req.user = user;
       next();
 
     } catch (e) {

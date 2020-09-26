@@ -48,8 +48,8 @@ module.exports = {
 
   updateOne: async (req, res, next) => {
     try {
-      const car = req.car;
-      const carToUpdate = { ...car, ...req.body };
+      const { car, user } = req;
+      const carToUpdate = { ...car, ...req.body, user_id: user.id };
 
       const messageAboutUpdatingCar = await updateById(+req.params.id, carToUpdate);
 

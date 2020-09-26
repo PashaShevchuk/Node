@@ -21,7 +21,7 @@ userRouter.get('/:id', isUserInDbById, findOne);
 userRouter.post('/', checkUserValidity, checkFileValidity, checkUserPhotoCount, checkIsUserCreatedInDb, createOne);
 
 // оновити користувача
-userRouter.patch('/:id', isUserInDbById, checkUpdateUserValidity, updateOne);
+userRouter.patch('/:id', isUserInDbById, checkUpdateUserValidity, checkFileValidity, checkUserPhotoCount, updateOne);
 
 // видалити користувача
 userRouter.delete('/:id', isUserInDbById, deleteOne);
