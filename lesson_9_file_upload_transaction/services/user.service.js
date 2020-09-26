@@ -31,9 +31,6 @@ module.exports = {
     });
   },
 
-  // 1 method
-  // updateById: (id, userObject) => UserModel.update(userObject, { where: { id } }).then(() => 'The user has been updated'),
-
   // 2 method
   updateById: async (id, userObject, transaction) => {
     await UserModel.update(userObject, { where: { id }, transaction });

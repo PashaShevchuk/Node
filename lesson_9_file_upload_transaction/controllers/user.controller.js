@@ -80,7 +80,7 @@ module.exports = {
         const fileExtension = avatar.name.split('.').pop();
         const photoName = `${ uuid }.${ fileExtension }`;
 
-        await fs.rmdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
+        await fs.rmdir(path.join(process.cwd(), 'public', photoDir), { recursive: true }); // delete old avatar
         await fs.mkdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
         await avatar.mv(path.join(process.cwd(), 'public', photoDir, photoName));
 
@@ -109,6 +109,10 @@ module.exports = {
 
   deleteOne: async (req, res, next) => {
     try {
+      const user = req.user;
+      const photoDir = `/users/${ user.id }`;
+
+      await fs.rmdir(path.join(process.cwd(), 'public', photoDir), { recursive: true });
       const messageAboutDeletingUser = await deleteById(+req.params.id);
 
       res.status(200).send(messageAboutDeletingUser);
