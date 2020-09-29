@@ -10,5 +10,9 @@ module.exports = {
   ROOT_EMAIL: process.env.ROOT_EMAIL || 'carshop@gmail.com',
   ROOT_EMAIL_PASSWORD: process.env.ROOT_EMAIL_PASS || '12345678',
 
-  FRONTEND_URL: process.env.FRONTEND_URL || 'https://carshop.com.ua/'
+  FRONTEND_URL: process.env.FRONTEND_URL || 'https://carshop.com.ua/',
+
+  WHITE_LIST: process.env.WHITE_LIST || 'http://localhost:3000;http://localhost:5000',
+
+  ENV: process.env.ENV || 'DEV'
 }

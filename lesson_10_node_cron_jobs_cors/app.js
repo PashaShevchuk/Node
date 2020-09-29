@@ -7,9 +7,24 @@ require('dotenv').config();
 const sequelize = require('./dataBase');
 const apiRouter = require('./routes/api.router');
 const croneRun = require('./crone-jobs');
+const { WHITE_LIST } = require('./configs/config');
 
 const app = express();
 
+if (process.env.ENV === 'DEV') {
+  app.use(cors());
+
+} else {
+  app.use(cors({
+    origin: (origin, callback) => {
+      if (WHITE_LIST.split(';').includes(origin)) {
+        callback(null, true);
+      } else {
+        callback(new Error('Not allowed by CORS'));
+      }
+    }
+  }))
+}
 
 app.use(fileUpload({}));
 app.use(express.urlencoded({ extended: true }));
