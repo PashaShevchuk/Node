@@ -5,6 +5,7 @@ require('dotenv').config();
 
 const sequelize = require('./dataBase');
 const apiRouter = require('./routes/api.router');
+const croneRun = require('./crone-jobs');
 
 const app = express();
 
@@ -35,6 +36,7 @@ sequelize
         console.log(err);
       }
 
+      croneRun(); // node-crone jobs
       console.log('Server listening on 5000');
     });
   })
