@@ -1,12 +1,15 @@
 const cron = require('node-cron');
 
+const clearOldTokens = require('./clear-old-tokens');
+
 
 module.exports = () => {
   try {
-    cron.schedule('*/5 * * * * *', async () => {
+    // at 00:00 everyday
+    cron.schedule('0 0 * * *', async () => {
       console.log('-----------------------ITERATION START------------------------');
 
-      console.log('crone working');
+      await clearOldTokens();
 
       console.log('-----------------------ITERATION FINISH-----------------------');
     });
@@ -15,7 +18,4 @@ module.exports = () => {
     console.log(e);
   }
 }
-
-
-// “At 00:00 on Sunday.” - @weekly
 
