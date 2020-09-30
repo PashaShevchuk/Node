@@ -34,7 +34,7 @@ app.use(express.static(path.join(process.cwd(), 'public')));
 
 // connect to MongoDB
 mongoose.connect(encodeURI('mongodb://localhost/auto_shop'), { useNewUrlParser: true });
-const db  = mongoose.connection;
+const db = mongoose.connection;
 db.on('error', (args) => {
   console.log(args);
 });
