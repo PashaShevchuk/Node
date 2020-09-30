@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const cors = require('cors');
+const mongoose = require('mongoose');
 require('dotenv').config();
 
 const sequelize = require('./dataBase');
@@ -30,6 +31,14 @@ app.use(fileUpload({}));
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 app.use(express.static(path.join(process.cwd(), 'public')));
+
+// connect to MongoDB
+mongoose.connect(encodeURI('mongodb://localhost/auto_shop'), { useNewUrlParser: true });
+const db  = mongoose.connection;
+db.on('error', (args) => {
+  console.log(args);
+});
+
 
 app.use('/api', apiRouter);
 

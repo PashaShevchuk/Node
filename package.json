@@ -12,6 +12,7 @@
     "fs-extra": "^9.0.1",
     "joi": "^17.2.1",
     "jsonwebtoken": "^8.5.1",
+    "mongoose": "^5.10.7",
     "node-cron": "^2.0.3",
     "nodemailer": "^6.4.11",
     "uuid": "^8.3.0"
@@ -19,6 +20,7 @@
   "devDependencies": {
     "@types/sequelize": "^4.28.9",
     "@types/joi": "^14.3.4",
+    "@types/mongoose": "^5.7.36",
     "@types/jsonwebtoken": "^8.5.0",
     "@types/nodemailer": "^6.4.0",
     "@types/email-templates": "^7.1.0",
