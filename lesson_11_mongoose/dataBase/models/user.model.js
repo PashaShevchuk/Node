@@ -1,54 +1,21 @@
-const { Model, DataTypes } = require('sequelize');
+const { Schema, model } = require('mongoose');
 
-const sequelize = require('../index');
-const { USERS } = require('../../configs/db-tables.enum');
 
-class UserModel extends Model {
-}
-
-UserModel.init({
-  id: {
-    type: DataTypes.INTEGER,
-    primaryKey: true,
-    autoIncrement: true
-  },
-
+const UserSchema = new Schema({
   first_name: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
-
   last_name: {
-    type: DataTypes.STRING,
-    allowNull: false
+    type: String,
+    required: true
   },
-
   email: {
-    type: DataTypes.STRING,
-    allowNull: false,
+    type: String,
+    required: true,
     unique: true
-  },
-
-  login: {
-    type: DataTypes.STRING,
-    allowNull: false,
-    unique: true
-  },
-
-  password: {
-    type: DataTypes.STRING,
-    allowNull: false,
-  },
-
-  avatar: {
-    type: DataTypes.STRING,
-  },
-
-}, {
-  sequelize,
-  modelName: 'user',
-  tableName: USERS,
-  timestamps: false
+  }
 });
 
-module.exports = UserModel;
+
+module.exports = model('user', UserSchema);

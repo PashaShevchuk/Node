@@ -1,1 +1,1 @@
-module.exports = require('./sequelize.config');
+module.exports.UserModel = require('./models/user.model');
