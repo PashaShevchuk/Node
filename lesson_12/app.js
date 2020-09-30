@@ -10,9 +10,13 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
 
 
-mongoose.connect(encodeURI('mongodb://localhost/auto_shop'), { useNewUrlParser: true });
-const db = mongoose.connection;
-db.on('error', (args) => {
+mongoose.connect(encodeURI('mongodb://localhost/auto_shop'), {
+  useNewUrlParser: true,
+  useUnifiedTopology: true,
+  useCreateIndex: true,
+});
+
+mongoose.connection.on('error', (args) => {
   console.log(args);
 });
 
