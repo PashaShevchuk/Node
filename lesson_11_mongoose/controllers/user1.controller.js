@@ -24,3 +24,6 @@ class User1Controller {
     }
   }
 }
+
+
+module.exports = new User1Controller();
