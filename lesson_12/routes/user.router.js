@@ -1,8 +1,8 @@
 const { Router } = require('express');
 
 const {
-  userService: {getAll, create, deleteById}
-} = require('../services');
+  userController: {getAll, createOne}
+} = require('../controllers');
 
 const userRouter = Router();
 
@@ -11,7 +11,7 @@ const userRouter = Router();
 userRouter.get('/', getAll);
 
 // створити користувача
-userRouter.post('/', create);
+userRouter.post('/', createOne);
 
 
 module.exports = userRouter;
