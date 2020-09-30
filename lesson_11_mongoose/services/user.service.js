@@ -10,6 +10,10 @@ class UserService {
     return new UserModel(objectToCreate).save();
   }
 
+  updateById(id, objectToUpdate) {
+    return UserModel.findByIdAndUpdate(id, objectToUpdate, { new: true });
+  }
+
   deleteById(id) {
     return UserModel.findByIdAndDelete(id);
   }

@@ -1,17 +1,16 @@
 const { Router } = require('express');
 
 const {
-  userController: {getAll, createOne}
+  userController: { getAll, createOne, updateById, deleteById }
 } = require('../controllers');
 
 const userRouter = Router();
 
 
-// взяти всіх користувачів
-userRouter.get('/', getAll);
-
-// створити користувача
-userRouter.post('/', createOne);
+userRouter.post('/', createOne);       // create
+userRouter.get('/', getAll);           // read
+userRouter.patch('/:id', updateById);  // update
+userRouter.delete('/:id', deleteById); // delete
 
 
 module.exports = userRouter;

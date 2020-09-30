@@ -14,15 +14,38 @@ class UserController {
 
   async createOne(req, res, next) {
     try {
-      const user = req.body;
-
-      const createdUser = await userService.create(user);
+      const createdUser = await userService.create(req.body);
 
       res.json(createdUser);
     } catch (e) {
       next(e);
     }
   }
+
+  async updateById(req, res, next) {
+    try {
+      const id = req.params.id;
+
+      const updatedUser = await userService.updateById(id, req.body);
+
+      res.json(updatedUser);
+    } catch (e) {
+      next(e);
+    }
+  }
+
+  async deleteById(req, res, next) {
+    try {
+      const id = req.params.id;
+
+      const deletedUser = await userService.deleteById(id);
+
+      res.json(deletedUser);
+    } catch (e) {
+      next(e);
+    }
+  }
 }
+
 
 module.exports = new UserController();
