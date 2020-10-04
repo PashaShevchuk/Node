@@ -11,19 +11,19 @@ const { WHITE_LIST } = require('./configs/config');
 
 const app = express();
 
-if (process.env.ENV === 'DEV') {
+if (process.env.ENV === 'DsEV') {
   app.use(cors());
 
 } else {
   app.use(cors({
     origin: (origin, callback) => {
       if (WHITE_LIST.split(';').includes(origin)) {
-        callback(null, true);
+        callback(null, true)
       } else {
-        callback(new Error('Not allowed by CORS'));
+        callback(new Error('Not allowed by CORS'))
       }
     }
-  }))
+  }));
 }
 
 app.use(fileUpload({}));
