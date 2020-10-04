@@ -11,7 +11,7 @@ const { WHITE_LIST } = require('./configs/config');
 
 const app = express();
 
-if (process.env.ENV === 'DsEV') {
+if (process.env.ENV === 'DEV') {
   app.use(cors());
 
 } else {
