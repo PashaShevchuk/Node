@@ -2,6 +2,7 @@ const express = require('express');
 const fileUpload = require('express-fileupload');
 const path = require('path');
 const cors = require('cors');
+const morgan = require('morgan')
 require('dotenv').config();
 
 const sequelize = require('./dataBase');
@@ -13,6 +14,7 @@ const app = express();
 
 if (process.env.ENV === 'DEV') {
   app.use(cors());
+  app.use(morgan('dev'));
 
 } else {
   app.use(cors({
