@@ -10,6 +10,9 @@ const {
   oauthService: { getByParams }
 } = require('../services');
 const { AUTHORIZATION } = require('../configs/constants');
+const winston = require('../logger/winston');
+
+const logger = winston('CHECK-TOKEN');
 
 
 module.exports = {
@@ -18,6 +21,12 @@ module.exports = {
       const token = req.get(AUTHORIZATION);
 
       if (!token) {
+        // logger.info(new CustomError(
+        //   UNAUTHORIZED_NOT_VALID_TOKEN.message,
+        //   statusCodesEnum.UNAUTHORIZED,
+        //   UNAUTHORIZED_NOT_VALID_TOKEN.code));
+        logger.info({ message: 'Token is not valid!' });
+
         return next(new CustomError(
           UNAUTHORIZED_NOT_VALID_TOKEN.message,
           statusCodesEnum.UNAUTHORIZED,

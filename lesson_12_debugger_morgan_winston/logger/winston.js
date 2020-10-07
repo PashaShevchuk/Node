@@ -15,10 +15,8 @@ module.exports = (label) => {
     filename: path.join(process.cwd(), 'logs', 'error.txt'),
     format: winston.format.combine(
       winston.format.label({ label }),
+      winston.format.timestamp({ format: 'YYYY-MM-DD HH:mm:ss' }),
       winston.format.json({ space: 2 }),
-      winston.format.timestamp({
-        format: 'YYYY-MM-DD HH:mm:ss'
-      })
     )
   };
 

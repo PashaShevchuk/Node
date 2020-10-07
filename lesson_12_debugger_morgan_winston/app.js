@@ -4,6 +4,7 @@ const path = require('path');
 const cors = require('cors');
 const morgan = require('morgan');
 require('dotenv').config();
+const winston = require('./logger/winston');
 
 const sequelize = require('./dataBase');
 const apiRouter = require('./routes/api.router');
@@ -11,6 +12,8 @@ const croneRun = require('./crone-jobs');
 const { WHITE_LIST } = require('./configs/config');
 
 const app = express();
+
+const logger = winston('APP');
 
 if (process.env.ENV === 'DEV') {
   app.use(cors());
@@ -37,6 +40,7 @@ app.use('/api', apiRouter);
 
 // error
 app.use('*', (err, req, res, next) => {
+  logger.error(err);
   res
     .status(err.status || 404)
     .json({

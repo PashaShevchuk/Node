@@ -8,7 +8,9 @@ const {
   statusCodesEnum,
   usersErrors: { BAD_REQUEST_NOT_VALID_USER, NOT_FOUND_USER }
 } = require('../errors');
+const winston = require('../logger/winston');
 
+const logger = winston('USER-MIDDLEWARE');
 
 module.exports = {
   checkUserValidity: (req, res, next) => {
@@ -17,6 +19,7 @@ module.exports = {
       const { error } = newUserValidator.validate(user);
 
       if (error) {
+        logger.info({message: 'not valid user'});
         return next(new CustomError(   // or  // return next(new CustomError(
           error.details[0].message,           //   BAD_REQUEST_NOT_VALID_USER.message,
           statusCodesEnum.BAD_REQUEST,        //   statusCodesEnum.BAD_REQUEST,
@@ -80,6 +83,11 @@ module.exports = {
       const user = await userService.findOneByParams({ login });
 
       if (!user) {
+        logger.info(new CustomError(
+          NOT_FOUND_USER.message,
+          statusCodesEnum.NOT_FOUND,
+          NOT_FOUND_USER.code));
+
         return next(new CustomError(
           NOT_FOUND_USER.message,
           statusCodesEnum.NOT_FOUND,
