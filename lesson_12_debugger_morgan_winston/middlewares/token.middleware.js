@@ -46,11 +46,19 @@ module.exports = {
 
       const tokenWithUser = await getByParams({ access_token: token });
 
+      if (!tokenWithUser) {
+        return next(new CustomError(
+          UNAUTHORIZED_NOT_VALID_TOKEN.message,
+          statusCodesEnum.UNAUTHORIZED,
+          UNAUTHORIZED_NOT_VALID_TOKEN.code)
+        );
+      }
+
       req.user = tokenWithUser.user;
       next();
 
     } catch (e) {
-      next(e.status);
+      next(e);
     }
   },
 
@@ -76,9 +84,9 @@ module.exports = {
         }
       });
 
-      const tokens = await getByParams({ refresh_token: token });
+      const tokenWithUser = await getByParams({ refresh_token: token });
 
-      if (!tokens) {
+      if (!tokenWithUser) {
         return next(new CustomError(
           UNAUTHORIZED_NOT_VALID_TOKEN.message,
           statusCodesEnum.UNAUTHORIZED,
@@ -86,7 +94,7 @@ module.exports = {
         );
       }
 
-      req.user = tokens.user;
+      req.user = tokenWithUser.user;
       next();
 
     } catch (e) {

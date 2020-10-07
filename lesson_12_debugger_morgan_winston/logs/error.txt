@@ -12,3 +12,10 @@
   "label": "APP",
   "timestamp": "2020-10-07 18:43:01"
 }
+{
+  "status": 401,
+  "customCode": 4011,
+  "level": "error",
+  "label": "APP",
+  "timestamp": "2020-10-07 19:48:18"
+}
